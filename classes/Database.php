@@ -16,8 +16,7 @@ namespace Palasthotel\PermalinkHistory;
 class Database {
 
 	const CONTENT_TYPE_POST = "post";
-
-	const CONTENT_TYPE_TAXONOMY_TERM = "taxonomy_term";
+	const CONTENT_TYPE_TERM_TAXONOMY = "term_taxonomy";
 
 	/**
 	 * Database constructor.
@@ -64,15 +63,15 @@ class Database {
 	}
 
 	/**
-	 * add a term link to history
+	 * add a term permalink to history
 	 *
 	 * @param int $taxonomy_term_id
 	 * @param string $permalink_without_domain
 	 *
 	 * @return false|int
 	 */
-	public function addTermTaxonomyLink( $taxonomy_term_id, $permalink_without_domain ) {
-		return $this->addPermalink( $taxonomy_term_id, self::CONTENT_TYPE_TAXONOMY_TERM, $permalink_without_domain );
+	public function addTermTaxonomyPermalink( $taxonomy_term_id, $permalink_without_domain ) {
+		return $this->addPermalink( $taxonomy_term_id, self::CONTENT_TYPE_TERM_TAXONOMY, $permalink_without_domain );
 	}
 
 	/**
@@ -108,7 +107,7 @@ class Database {
 	 * @return int
 	 */
 	public function getTermTaxonomyId( $permalink_without_domain ) {
-		return $this->getId( $permalink_without_domain, self::CONTENT_TYPE_TAXONOMY_TERM );
+		return $this->getId( $permalink_without_domain, self::CONTENT_TYPE_TERM_TAXONOMY );
 	}
 
 	/**
@@ -143,8 +142,8 @@ class Database {
 	 *
 	 * @return boolean
 	 */
-	public function taxonomyTermPermalinkHistoryExists( $permalink_without_domain ) {
-		return $this->permalinkHistoryExists( $permalink_without_domain, self::CONTENT_TYPE_TAXONOMY_TERM );
+	public function termTaxonomyPermalinkHistoryExists( $permalink_without_domain ) {
+		return $this->permalinkHistoryExists( $permalink_without_domain, self::CONTENT_TYPE_TERM_TAXONOMY );
 	}
 
 	/**
@@ -162,7 +161,7 @@ class Database {
 	 * @return bool
 	 */
 	public function termTaxonomyLinkHistoryNotExists( $permalink ) {
-		return ! $this->taxonomyTermPermalinkHistoryExists( $permalink );
+		return ! $this->termTaxonomyPermalinkHistoryExists( $permalink );
 	}
 
 	/**
@@ -191,7 +190,7 @@ class Database {
 	 *
 	 * @return array
 	 */
-	public function getTaxonomyTermIdsWithNoHistory( $limit, $page = 0 ) {
+	public function getTermTaxonomyIdsWithNoHistory( $limit, $page = 0 ) {
 		$offset = $limit * $page;
 		$wpdb   = $this->wpdb;
 
@@ -200,7 +199,7 @@ class Database {
 				"SELECT ID FROM $wpdb->term_relationships WHERE 
 				term_taxonomy_id NOT IN ( SELECT DISTINCT term_taxonomy_id FROM $this->tablename WHERE content_type = %s )
 				LIMIT $offset, $limit",
-				self::CONTENT_TYPE_TAXONOMY_TERM
+				self::CONTENT_TYPE_TERM_TAXONOMY
 			)
 		);
 	}
@@ -228,7 +227,7 @@ class Database {
 	 * @return array
 	 */
 	public function getTermTaxonomyHistory() {
-		return $this->getHistoryOf(self::CONTENT_TYPE_TAXONOMY_TERM);
+		return $this->getHistoryOf(self::CONTENT_TYPE_TERM_TAXONOMY);
 	}
 
 	/**
@@ -236,7 +235,6 @@ class Database {
 	 */
 	public function create() {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
 		dbDelta( "CREATE TABLE IF NOT EXISTS $this->tablename (
 			 id bigint(20) unsigned not null auto_increment,
 			 content_id bigint(20) unsigned not null,

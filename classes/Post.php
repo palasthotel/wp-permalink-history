@@ -19,23 +19,41 @@ class Post {
 	 *
 	 * @param Plugin $plugin
 	 */
-	public function __construct(Plugin $plugin) {
+	public function __construct( Plugin $plugin ) {
 		$this->plugin = $plugin;
-		add_action('the_post', array($this, 'save_history'));
+		add_action( 'save_post', array( $this, 'on_save' ), 1 );
+		add_action( 'the_post', array( $this, 'save_history' ) );
+	}
+
+	/**
+	 * save history on post save
+	 * this will track post name permalink structure changes
+	 *
+	 * @param $post_id
+	 */
+	function on_save( $post_id ) {
+
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+		if ( ! current_user_can( "edit_post", $post_id ) ) {
+			return;
+		}
+
+		$this->savePermalinkInHistory( $post_id );
 	}
 
 	/**
 	 * save post permalink to history if not exists
+	 * this will track general permalink structure changes
 	 */
-	function save_history(){
-		if(
+	function save_history() {
+		if (
 			is_main_query()
 			&&
 			is_singular()
-			&&
-			$this->plugin->database->postPermalinkHistoryNotExists($this->getEscapedPermalink(get_the_ID()))
-		){
-			$this->savePermalinkInHistory(get_the_ID());
+		) {
+			$this->savePermalinkInHistory( get_the_ID() );
 		}
 	}
 
@@ -44,10 +62,17 @@ class Post {
 	 *
 	 * @return false|int
 	 */
-	function savePermalinkInHistory($post_id){
+	function savePermalinkInHistory( $post_id ) {
+
+		$permalink = $this->getEscapedPermalink( $post_id );
+
+		if ( $this->plugin->database->postPermalinkHistoryExists( $permalink ) ) {
+			return false;
+		}
+
 		return $this->plugin->database->addPostPermalink(
 			$post_id,
-			$this->getEscapedPermalink($post_id)
+			$this->getEscapedPermalink( $post_id )
 		);
 	}
 
@@ -56,7 +81,7 @@ class Post {
 	 *
 	 * @return string
 	 */
-	function getEscapedPermalink($post_id){
+	function getEscapedPermalink( $post_id ) {
 		return $this->escapeUrl( get_permalink( $post_id ) );
 	}
 
@@ -65,7 +90,7 @@ class Post {
 	 *
 	 * @return string
 	 */
-	function escapeUrl($url){
+	function escapeUrl( $url ) {
 		return str_replace( home_url(), '', $url );
 	}
 }
