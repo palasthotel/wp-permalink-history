@@ -36,7 +36,7 @@ switch ( $argv[1] ) {
 		break;
 	case "init":
 
-		$limit = (isset($argv[2]) && intval($argv[2]) > 0)? intval($argv[2]): 100;
+		$limit = (isset($argv[2]) && intval(str_replace("--perPage=", "", $argv[2])) > 0)? intval(str_replace("--perPage=", "", $argv[2])): 100;
 
 		while ( $results = $plugin->database->getPostIdsWithNoHistory( $limit ) ) {
 
@@ -45,11 +45,19 @@ switch ( $argv[1] ) {
 			}
 
 			foreach ( $results as $id ) {
-				$plugin->post->savePermalinkInHistory( $id );
+
+				$worked = $plugin->database->addPostPermalink(
+					$id,
+					$plugin->post->getEscapedPermalink($id)
+				);
 
 				$permalink = $plugin->post->getEscapedPermalink( $id );
 				$title = get_the_title($id);
-				echo "$id: $title $permalink\n";
+				echo (($worked)? "✅  ": "🚨  ") . "$id: $title $permalink\n";
+				if(!$worked){
+					echo $plugin->database->wpdb->last_error."\n";
+					die();
+				}
 
 			}
 		}

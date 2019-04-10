@@ -40,8 +40,8 @@ class Settings {
 	 * render settings
 	 */
 	public function render(){
-		?>
-		<textarea style="width:100%;height:200px"><?php $this->plugin->redirect->renderRedirectMap(); ?></textarea>
-		<?php
+		// TODO: make this async call with paged redirects response and render it into a textarea
+		$url = $this->plugin->redirects->ajaxurl;
+		echo "<p><a href='$url' target='_blank'>Generate redirects map (this can take a while)...</a></p>";
 	}
 }

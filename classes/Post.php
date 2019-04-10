@@ -65,14 +65,13 @@ class Post {
 	function savePermalinkInHistory( $post_id ) {
 
 		$permalink = $this->getEscapedPermalink( $post_id );
-
 		if ( $this->plugin->database->postPermalinkHistoryExists( $permalink ) ) {
 			return false;
 		}
 
 		return $this->plugin->database->addPostPermalink(
 			$post_id,
-			$this->getEscapedPermalink( $post_id )
+			$permalink
 		);
 	}
 

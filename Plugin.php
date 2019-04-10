@@ -17,7 +17,7 @@ use Palasthotel\PermalinkHistory\Migrate\PermalinkHistorySource;
  * @property Database database
  * @property Post post
  * @property Migrate migrate
- * @property Redirect redirect
+ * @property Redirects $redirects
  * @property Settings settings
  * @property string path
  * @property string url
@@ -31,11 +31,11 @@ class Plugin {
 
 		require_once dirname(__FILE__)."/vendor/autoload.php";
 
-		$this->database = new Database();
-		$this->post = new Post($this);
-		$this->migrate = new Migrate();
-		$this->redirect = new Redirect($this);
-		$this->settings = new Settings($this);
+		$this->database  = new Database();
+		$this->post      = new Post($this);
+		$this->migrate   = new Migrate();
+		$this->redirects = new Redirects($this);
+		$this->settings  = new Settings($this);
 
 		register_activation_hook(__FILE__, array($this, "on_activate"));
 	}

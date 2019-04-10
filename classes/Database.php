@@ -16,6 +16,7 @@ namespace Palasthotel\PermalinkHistory;
 class Database {
 
 	const CONTENT_TYPE_POST = "post";
+
 	const CONTENT_TYPE_TERM_TAXONOMY = "term_taxonomy";
 
 	/**
@@ -77,12 +78,12 @@ class Database {
 	/**
 	 * @param int $id
 	 *
-	 * @return object|null
+	 * @return HistoryItem|null
 	 */
-	public function getById($id){
-		return $this->wpdb->get_row(
-			$this->wpdb->prepare("SELECT * FROM $this->tablename+ WHERE id = %d", $id)
-		);
+	public function getById( $id ) {
+		return HistoryItem::parse( $this->wpdb->get_row(
+			$this->wpdb->prepare( "SELECT * FROM $this->tablename+ WHERE id = %d", $id )
+		) );
 	}
 
 	/**
@@ -125,7 +126,7 @@ class Database {
 	 * @param string $permalink_without_domain
 	 * @param string $content_type
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function permalinkHistoryExists( $permalink_without_domain, $content_type ) {
 		return intval( $this->wpdb->get_var(
@@ -160,7 +161,7 @@ class Database {
 	/**
 	 * @param string $permalink
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function postPermalinkHistoryNotExists( $permalink ) {
 		return ! $this->postPermalinkHistoryExists( $permalink );
@@ -179,7 +180,7 @@ class Database {
 	 * @param int $limit
 	 * @param int $page
 	 *
-	 * @return array
+	 * @return int[]
 	 */
 	public function getPostIdsWithNoHistory( $limit, $page = 0 ) {
 		$offset = $limit * $page;
@@ -187,7 +188,7 @@ class Database {
 
 		return $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT ID FROM $wpdb->posts WHERE post_status = 'publish'
+				"SELECT ID FROM $wpdb->posts WHERE post_status = 'publish' AND guid != '' AND post_name != ''
 				AND ID NOT IN ( SELECT DISTINCT content_id FROM $this->tablename WHERE content_type = %s )
 				LIMIT $offset, $limit",
 				self::CONTENT_TYPE_POST
@@ -199,7 +200,7 @@ class Database {
 	 * @param int $limit
 	 * @param int $page
 	 *
-	 * @return array
+	 * @return int[]
 	 */
 	public function getTermTaxonomyIdsWithNoHistory( $limit, $page = 0 ) {
 		$offset = $limit * $page;
@@ -218,26 +219,31 @@ class Database {
 	/**
 	 * @param $content_type
 	 *
-	 * @return array
+	 * @return HistoryItem[]
 	 */
-	public function getHistoryOf($content_type) {
-		return $this->wpdb->get_results(
-			$this->wpdb->prepare("SELECT * FROM $this->tablename WHERE content_type = ", $content_type )
+	public function getHistoryOf( $content_type ) {
+		return array_map(
+			function ($item) {
+				return HistoryItem::parse($item);
+			},
+			$this->wpdb->get_results(
+				$this->wpdb->prepare( "SELECT * FROM $this->tablename WHERE content_type = %s", $content_type )
+			)
 		);
 	}
 
 	/**
-	 * @return array
+	 * @return HistoryItem[]
 	 */
 	public function getPostHistory() {
-		return $this->getHistoryOf(self::CONTENT_TYPE_POST);
+		return $this->getHistoryOf( self::CONTENT_TYPE_POST );
 	}
 
 	/**
-	 * @return array
+	 * @return HistoryItem[]
 	 */
 	public function getTermTaxonomyHistory() {
-		return $this->getHistoryOf(self::CONTENT_TYPE_TERM_TAXONOMY);
+		return $this->getHistoryOf( self::CONTENT_TYPE_TERM_TAXONOMY );
 	}
 
 	/**
@@ -245,7 +251,7 @@ class Database {
 	 *
 	 * @return false|int
 	 */
-	public function deleteById($id){
+	public function deleteById( $id ) {
 		return $this->wpdb->delete(
 			$this->tablename,
 			array(
