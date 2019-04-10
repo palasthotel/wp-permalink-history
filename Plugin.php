@@ -11,16 +11,23 @@
 
 namespace Palasthotel\PermalinkHistory;
 
+use Palasthotel\PermalinkHistory\Migrate\PermalinkHistorySource;
+
 /**
  * @property Database database
  * @property Post post
  * @property Migrate migrate
  * @property Redirect redirect
  * @property Settings settings
+ * @property string path
+ * @property string url
  */
 class Plugin {
 
 	private function __construct() {
+
+		$this->path = plugin_dir_path(__FILE__);
+		$this->url = plugin_dir_url(__FILE__);
 
 		require_once dirname(__FILE__)."/vendor/autoload.php";
 

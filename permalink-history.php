@@ -52,7 +52,6 @@ switch ( $argv[1] ) {
 				echo "$id: $title $permalink\n";
 
 			}
-			sleep( 3 );
 		}
 
 		break;

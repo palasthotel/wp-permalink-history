@@ -75,6 +75,17 @@ class Database {
 	}
 
 	/**
+	 * @param int $id
+	 *
+	 * @return object|null
+	 */
+	public function getById($id){
+		return $this->wpdb->get_row(
+			$this->wpdb->prepare("SELECT * FROM $this->tablename+ WHERE id = %d", $id)
+		);
+	}
+
+	/**
 	 * @param string $permalink_without_domain
 	 * @param string $content_type
 	 *
@@ -215,7 +226,6 @@ class Database {
 		);
 	}
 
-
 	/**
 	 * @return array
 	 */
@@ -228,6 +238,23 @@ class Database {
 	 */
 	public function getTermTaxonomyHistory() {
 		return $this->getHistoryOf(self::CONTENT_TYPE_TERM_TAXONOMY);
+	}
+
+	/**
+	 * @param int $id
+	 *
+	 * @return false|int
+	 */
+	public function deleteById($id){
+		return $this->wpdb->delete(
+			$this->tablename,
+			array(
+				"id" => $id,
+			),
+			array(
+				'%d',
+			)
+		);
 	}
 
 	/**
