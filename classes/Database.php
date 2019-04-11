@@ -217,6 +217,23 @@ class Database {
 	}
 
 	/**
+	 * @param int $content_id
+	 * @param string $content_type
+	 *
+	 * @return HistoryItem[]
+	 */
+	public function getHistoryFor($content_id, $content_type){
+		return array_map(
+			function ($item) {
+				return HistoryItem::parse($item);
+			},
+			$this->wpdb->get_results(
+				$this->wpdb->prepare( "SELECT * FROM $this->tablename WHERE content_id = %d AND content_type = %s ORDER BY id", $content_id, $content_type )
+			)
+		);
+	}
+
+	/**
 	 * @param $content_type
 	 *
 	 * @return HistoryItem[]
@@ -227,7 +244,7 @@ class Database {
 				return HistoryItem::parse($item);
 			},
 			$this->wpdb->get_results(
-				$this->wpdb->prepare( "SELECT * FROM $this->tablename WHERE content_type = %s", $content_type )
+				$this->wpdb->prepare( "SELECT * FROM $this->tablename WHERE content_type = %s order by id", $content_type )
 			)
 		);
 	}

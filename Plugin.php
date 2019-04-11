@@ -11,8 +11,6 @@
 
 namespace Palasthotel\PermalinkHistory;
 
-use Palasthotel\PermalinkHistory\Migrate\PermalinkHistorySource;
-
 /**
  * @property Database database
  * @property Post post
@@ -23,6 +21,8 @@ use Palasthotel\PermalinkHistory\Migrate\PermalinkHistorySource;
  * @property string url
  */
 class Plugin {
+
+	const DOMAIN = "permalink-history";
 
 	private function __construct() {
 
@@ -36,6 +36,7 @@ class Plugin {
 		$this->migrate   = new Migrate();
 		$this->redirects = new Redirects($this);
 		$this->settings  = new Settings($this);
+		$this->meta_box = new MetaBox($this);
 
 		register_activation_hook(__FILE__, array($this, "on_activate"));
 	}
