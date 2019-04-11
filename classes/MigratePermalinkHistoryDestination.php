@@ -33,8 +33,8 @@ class MigratePermalinkHistoryDestination extends \ph_destination{
 
 	public function save($item)
 	{
-		if(!$this->plugin->database->permalinkHistoryExists($item["permalink"], $item["content_type"])){
-			if($this->plugin->database->addPermalink($item["content_id"], $item["content_type"], $item["permalink"])){
+		if(isset($item->content_id) && $item->content_id !== null && !$this->plugin->database->permalinkHistoryExists($item->permalink, $item->content_type)){
+			if($this->plugin->database->addPermalink($item->content_id, $item->content_type, $item->permalink)){
 				return $this->plugin->database->wpdb->insert_id;
 			}
 		}
