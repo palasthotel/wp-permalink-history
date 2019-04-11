@@ -19,6 +19,7 @@ namespace Palasthotel\PermalinkHistory;
  * @property Settings settings
  * @property string path
  * @property string url
+ * @property MetaBox meta_box
  */
 class Plugin {
 
