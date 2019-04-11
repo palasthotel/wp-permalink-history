@@ -19,6 +19,7 @@ namespace Palasthotel\PermalinkHistory;
  * @property Settings settings
  * @property string path
  * @property string url
+ * @property TermTaxonomy term_taxonomy
  */
 class Plugin {
 
@@ -33,6 +34,7 @@ class Plugin {
 
 		$this->database  = new Database();
 		$this->post      = new Post($this);
+		$this->term_taxonomy = new TermTaxonomy($this);
 		$this->migrate   = new Migrate();
 		$this->redirects = new Redirects($this);
 		$this->settings  = new Settings($this);

@@ -37,7 +37,13 @@ class Redirects {
 			global $wp;
 			$post_id = $this->plugin->database->getPostId( $wp->request );
 			if ( $post_id > 0 ) {
-				wp_redirect( get_permalink( $post_id ), 301 );
+				$permalink = get_permalink( $post_id );
+				if($permalink) wp_redirect( get_permalink( $post_id ), 301 );
+			}
+			$term_taxonomy_id = $this->plugin->database->getTermTaxonomyId($wp->request);
+			if($term_taxonomy_id > 0){
+				$term = $this->plugin->term_taxonomy->getTerm($term_taxonomy_id);
+				if($term instanceof \WP_Term) wp_redirect( get_term_link($term), 301 );
 			}
 		}
 	}

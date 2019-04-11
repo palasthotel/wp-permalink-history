@@ -159,24 +159,6 @@ class Database {
 	}
 
 	/**
-	 * @param string $permalink
-	 *
-	 * @return boolean
-	 */
-	public function postPermalinkHistoryNotExists( $permalink ) {
-		return ! $this->postPermalinkHistoryExists( $permalink );
-	}
-
-	/**
-	 * @param string $permalink
-	 *
-	 * @return bool
-	 */
-	public function termTaxonomyLinkHistoryNotExists( $permalink ) {
-		return ! $this->termTaxonomyPermalinkHistoryExists( $permalink );
-	}
-
-	/**
 	 * @param int $limit
 	 * @param int $page
 	 *
@@ -206,10 +188,14 @@ class Database {
 		$offset = $limit * $page;
 		$wpdb   = $this->wpdb;
 
+		// ⚠️ it is very important to join with wp_terms
+		// because there were cases where there have been orphaned term_taxonomy entries
 		return $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT ID FROM $wpdb->term_relationships WHERE 
-				term_taxonomy_id NOT IN ( SELECT DISTINCT term_taxonomy_id FROM $this->tablename WHERE content_type = %s )
+				"SELECT tt.term_taxonomy_id as id FROM $wpdb->terms as t LEFT JOIN $wpdb->term_taxonomy as tt ON (t.term_id = tt.term_id) 
+				WHERE tt.term_taxonomy_id NOT IN ( 
+				  SELECT DISTINCT content_id FROM $this->tablename WHERE content_type = %s 
+				)
 				LIMIT $offset, $limit",
 				self::CONTENT_TYPE_TERM_TAXONOMY
 			)
@@ -261,6 +247,24 @@ class Database {
 	 */
 	public function getTermTaxonomyHistory() {
 		return $this->getHistoryOf( self::CONTENT_TYPE_TERM_TAXONOMY );
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getContentTypes(){
+		return $this->wpdb->get_col("SELECT DISTINCT content_type FROM $this->tablename");
+	}
+
+	/**
+	 * @param string $content_type
+	 *
+	 * @return int
+	 */
+	public function getCount($content_type = ""){
+		$where = "";
+		if(!empty($content_type )) $where = $this->wpdb->prepare("WHERE content_type = %s", $content_type);
+		return intval($this->wpdb->get_var("SELECT count(id) FROM $this->tablename $where"));
 	}
 
 	/**

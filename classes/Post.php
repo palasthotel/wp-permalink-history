@@ -22,7 +22,7 @@ class Post {
 	public function __construct( Plugin $plugin ) {
 		$this->plugin = $plugin;
 		add_action( 'save_post', array( $this, 'on_save' ), 1 );
-		add_action( 'the_post', array( $this, 'save_history' ) );
+		add_action( 'get_header', array( $this, 'save_history' ) );
 	}
 
 	/**
@@ -81,15 +81,6 @@ class Post {
 	 * @return string
 	 */
 	function getEscapedPermalink( $post_id ) {
-		return $this->escapeUrl( get_permalink( $post_id ) );
-	}
-
-	/**
-	 * @param string $url
-	 *
-	 * @return string
-	 */
-	function escapeUrl( $url ) {
-		return str_replace( home_url(), '', $url );
+		return Utils::getUrlPath( get_permalink( $post_id ) );
 	}
 }
