@@ -21,7 +21,6 @@ class Utils {
 	 * @return mixed
 	 */
 	static function getUrlPath($url){
-		var_dump($url);
 		return parse_url( $url,  PHP_URL_PATH);
 	}
 }
