@@ -21,6 +21,7 @@ class Post {
 	 */
 	public function __construct( Plugin $plugin ) {
 		$this->plugin = $plugin;
+		// TODO: clean history if delete post
 		add_action( 'save_post', array( $this, 'on_save' ), 1 );
 		add_action( 'get_header', array( $this, 'save_history' ) );
 	}
@@ -65,7 +66,7 @@ class Post {
 	function savePermalinkInHistory( $post_id ) {
 
 		$permalink = $this->getEscapedPermalink( $post_id );
-		if ( $this->plugin->database->postPermalinkHistoryExists( $permalink ) ) {
+		if ( $this->plugin->database->postPermalinkHistoryExists($post_id, $permalink ) ) {
 			return false;
 		}
 

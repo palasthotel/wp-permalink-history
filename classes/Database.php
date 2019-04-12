@@ -123,39 +123,43 @@ class Database {
 	}
 
 	/**
+	 * @param int $content_id
 	 * @param string $permalink_without_domain
 	 * @param string $content_type
 	 *
 	 * @return boolean
 	 */
-	public function permalinkHistoryExists( $permalink_without_domain, $content_type ) {
+	public function permalinkHistoryExists( $content_id, $permalink_without_domain, $content_type ) {
 		return intval( $this->wpdb->get_var(
 				$this->wpdb->prepare(
-					"SELECT count(id) FROM $this->tablename WHERE permalink IN ( %s, %s, %s ) AND content_type = %s",
+					"SELECT count(id) FROM $this->tablename WHERE permalink IN ( %s, %s, %s ) AND content_type = %s AND content_id = %d",
 					$permalink_without_domain,
 					"/" . $permalink_without_domain,
 					"/" . $permalink_without_domain . "/",
-					$content_type
+					$content_type,
+					$content_id
 				)
 			) ) > 0;
 	}
 
 	/**
+	 * @param int $post_id
 	 * @param string $permalink_without_domain
 	 *
 	 * @return boolean
 	 */
-	public function postPermalinkHistoryExists( $permalink_without_domain ) {
-		return $this->permalinkHistoryExists( $permalink_without_domain, self::CONTENT_TYPE_POST );
+	public function postPermalinkHistoryExists($post_id, $permalink_without_domain ) {
+		return $this->permalinkHistoryExists( $post_id, $permalink_without_domain, self::CONTENT_TYPE_POST );
 	}
 
 	/**
+	 * @param int $term_taxonomy_id
 	 * @param string $permalink_without_domain
 	 *
 	 * @return boolean
 	 */
-	public function termTaxonomyPermalinkHistoryExists( $permalink_without_domain ) {
-		return $this->permalinkHistoryExists( $permalink_without_domain, self::CONTENT_TYPE_TERM_TAXONOMY );
+	public function termTaxonomyPermalinkHistoryExists( $term_taxonomy_id, $permalink_without_domain ) {
+		return $this->permalinkHistoryExists( $term_taxonomy_id, $permalink_without_domain, self::CONTENT_TYPE_TERM_TAXONOMY );
 	}
 
 	/**

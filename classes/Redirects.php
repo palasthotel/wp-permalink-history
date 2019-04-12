@@ -37,6 +37,7 @@ class Redirects {
 			global $wp;
 			$post_id = $this->plugin->database->getPostId( $wp->request );
 			if ( $post_id > 0 ) {
+				// TODO: if two posts had same ID do someting
 				$permalink = get_permalink( $post_id );
 				if($permalink) wp_redirect( get_permalink( $post_id ), 301 );
 			}

@@ -21,6 +21,7 @@ class TermTaxonomy {
 	 */
 	public function __construct( Plugin $plugin ) {
 		$this->plugin = $plugin;
+		// TODO: delete history on delete
 		add_action( 'edit_terms', array( $this, 'edit_terms' ), 10, 3 );
 		add_action( 'get_header', array( $this, 'get_header' ) );
 	}
@@ -58,7 +59,7 @@ class TermTaxonomy {
 	public function savePermalinkInHistory( $term ) {
 
 		$permalink_without_domain = $this->getEscapedPermalink( $term );
-		if ( $this->plugin->database->termTaxonomyPermalinkHistoryExists( $permalink_without_domain ) ) {
+		if ( $this->plugin->database->termTaxonomyPermalinkHistoryExists($term->term_taxonomy_id, $permalink_without_domain ) ) {
 			return false;
 		}
 
