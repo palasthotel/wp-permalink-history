@@ -23,6 +23,7 @@ class HistoryItem {
 	 * @param int $content_id
 	 * @param string $content_type
 	 * @param string $permalink
+	 * @param int|null $id
 	 */
 	private function __construct($content_id, $content_type, $permalink, $id) {
 		$this->id = $id;
@@ -32,10 +33,10 @@ class HistoryItem {
 	}
 
 	/**
-	 * @param $content_id
-	 * @param $content_type
-	 * @param $permalink
-	 * @param null $id
+	 * @param int $content_id
+	 * @param string $content_type
+	 * @param string $permalink
+	 * @param int|null $id
 	 *
 	 * @return HistoryItem
 	 */
