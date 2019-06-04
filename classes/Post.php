@@ -24,6 +24,7 @@ class Post {
 		// TODO: clean history if delete post
 		add_action( 'save_post', array( $this, 'on_save' ), 1 );
 		add_action( 'get_header', array( $this, 'save_history' ) );
+		add_action( 'deleted_post', array($this, 'on_deleted'));
 	}
 
 	/**
@@ -83,5 +84,9 @@ class Post {
 	 */
 	function getEscapedPermalink( $post_id ) {
 		return Utils::getUrlPath( get_permalink( $post_id ) );
+	}
+
+	function on_deleted($post_id){
+		$this->plugin->database->deletePostPermalinkHistory($post_id);
 	}
 }

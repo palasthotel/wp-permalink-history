@@ -289,6 +289,44 @@ class Database {
 	}
 
 	/**
+	 * @param $content_id
+	 *
+	 * @return false|int
+	 */
+	public function deletePostPermalinkHistory($content_id){
+		return $this->deletePermalinkHistory($content_id, self::CONTENT_TYPE_POST);
+	}
+
+	/**
+	 * @param $content_id
+	 *
+	 * @return false|int
+	 */
+	public function deleteTermTaxonomyPermalinkHistory($content_id){
+		return $this->deletePermalinkHistory($content_id, self::CONTENT_TYPE_TERM_TAXONOMY);
+	}
+
+	/**
+	 * @param int $content_id
+	 * @param string $content_type
+	 *
+	 * @return false|int
+	 */
+	public function deletePermalinkHistory($content_id, $content_type){
+		return $this->wpdb->delete(
+			$this->tablename,
+			array(
+				"content_id" => $content_id,
+				"content_type" => $content_type,
+			),
+			array(
+				"%d",
+				"%s",
+			)
+		);
+	}
+
+	/**
 	 * create tables
 	 */
 	public function create() {
