@@ -3,7 +3,7 @@ Contributors: edwardbock, palasthotel
 Donate link: https://palasthotel.de/
 Tags: seo, permalink, backup, protocol, history
 Requires at least: 4.0
-Tested up to: 5.1.1
+Tested up to: 5.2.1
 Stable tag: 1.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl

@@ -297,11 +297,12 @@ class Database {
 			 id bigint(20) unsigned not null auto_increment,
 			 content_id bigint(20) unsigned not null,
 			 content_type varchar(100) not null,
-			 permalink varchar(255) not null,
+			 permalink varchar(190) not null,
 			 primary key (id),
 			 key (content_id),
 			 key (content_type),
 			 key (permalink),
+			 key content_permalink (permalink, content_type),
 			 unique key content_permalink (content_id, permalink, content_type)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;" );
 
