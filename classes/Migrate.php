@@ -39,7 +39,8 @@ function migrate_handler( $post, $fields ) {
 	 * save to history
 	 */
 	foreach ( $permalinks as $p ) {
-		Plugin::get_instance()->database->addPostPermalink( $post["ID"], $p );
+		if(!Plugin::get_instance()->database->postPermalinkHistoryExists($post["ID"], $p))
+			Plugin::get_instance()->database->addPostPermalink( $post["ID"], $p );
 	}
 
 }
