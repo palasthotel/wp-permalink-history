@@ -341,7 +341,7 @@ class Database {
 			 key (content_type),
 			 key (permalink),
 			 key content_permalink (permalink, content_type),
-			 unique key content_permalink (content_id, permalink, content_type)
+			 unique key id_permalink_content (content_id, permalink, content_type)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;" );
 
 	}
