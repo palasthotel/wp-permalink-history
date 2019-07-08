@@ -46,6 +46,7 @@ class Redirects {
 				$term = $this->plugin->term_taxonomy->getTerm($term_taxonomy_id);
 				if($term instanceof \WP_Term) wp_redirect( get_term_link($term), 301 );
 			}
+			do_action(Plugin::ACTION_REDIRECT_404, $wp->request);
 		}
 	}
 

@@ -26,6 +26,8 @@ class Plugin {
 
 	const DOMAIN = "permalink-history";
 
+	const ACTION_REDIRECT_404 = "permalink_history_redirect_404";
+
 	private function __construct() {
 
 		$this->path = plugin_dir_path(__FILE__);
