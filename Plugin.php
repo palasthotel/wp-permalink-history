@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Permalink History
  * Description: Saves a history of posts permalinks
- * Version: 0.3
+ * Version: 1.0.1
  * Author: PALASTHOTEL (by Edward Bock)
  * Author URI: https://palasthotel.de
  * Text Domain: permalink-history
