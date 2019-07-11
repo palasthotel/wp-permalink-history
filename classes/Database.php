@@ -289,6 +289,44 @@ class Database {
 	}
 
 	/**
+	 * @param $content_id
+	 *
+	 * @return false|int
+	 */
+	public function deletePostPermalinkHistory($content_id){
+		return $this->deletePermalinkHistory($content_id, self::CONTENT_TYPE_POST);
+	}
+
+	/**
+	 * @param $content_id
+	 *
+	 * @return false|int
+	 */
+	public function deleteTermTaxonomyPermalinkHistory($content_id){
+		return $this->deletePermalinkHistory($content_id, self::CONTENT_TYPE_TERM_TAXONOMY);
+	}
+
+	/**
+	 * @param int $content_id
+	 * @param string $content_type
+	 *
+	 * @return false|int
+	 */
+	public function deletePermalinkHistory($content_id, $content_type){
+		return $this->wpdb->delete(
+			$this->tablename,
+			array(
+				"content_id" => $content_id,
+				"content_type" => $content_type,
+			),
+			array(
+				"%d",
+				"%s",
+			)
+		);
+	}
+
+	/**
 	 * create tables
 	 */
 	public function create() {
@@ -297,12 +335,13 @@ class Database {
 			 id bigint(20) unsigned not null auto_increment,
 			 content_id bigint(20) unsigned not null,
 			 content_type varchar(100) not null,
-			 permalink varchar(255) not null,
+			 permalink varchar(190) not null,
 			 primary key (id),
 			 key (content_id),
 			 key (content_type),
 			 key (permalink),
-			 unique key content_permalink (content_id, permalink, content_type)
+			 key content_permalink (permalink, content_type),
+			 unique key id_permalink_content (content_id, permalink, content_type)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;" );
 
 	}

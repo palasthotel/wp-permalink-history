@@ -4,7 +4,7 @@ Donate link: https://palasthotel.de/
 Tags: seo, permalink, backup, protocol, history
 Requires at least: 4.0
 Tested up to: 5.2.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -41,8 +41,11 @@ But to be honest. Perhaps it could get an issue, yes. Therefore you export a red
 
 == Changelog ==
 
-= 1.0.1 =
+= 1.0.2 =
 * Bugfix: Was redirecting too early. Works now with amp plugin.
+
+= 1.0.1 =
+* Feature: Action "permalink_history_redirect_404" if permalinks could not help you can try it yourself
 
 = 1.0.0 =
 * First release
