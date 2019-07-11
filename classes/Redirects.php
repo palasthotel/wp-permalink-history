@@ -25,7 +25,7 @@ class Redirects {
 		$this->plugin  = $plugin;
 		$this->ajaxurl = "/wp-admin/admin-ajax.php?action=" . self::ACTION;
 
-		add_action( 'template_redirect', array( $this, 'on_404' ) );
+		add_action( 'template_redirect', array( $this, 'on_404' ), 99 );
 		add_action( 'wp_ajax_' . self::ACTION, array( $this, 'ajax_redirect_map' ) );
 	}
 
