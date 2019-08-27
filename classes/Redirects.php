@@ -33,10 +33,10 @@ class Redirects {
 	 * try to redirect if is 404
 	 */
 	function on_404() {
-		if ( is_404() ) {
+		if ( !is_admin() && is_404() ) {
 			global $wp;
 			$post_id = $this->plugin->database->getPostId( $wp->request );
-			if ( $post_id > 0 ) {
+			if ( $post_id > 0 && get_post_status($post_id) == "publish") {
 				// TODO: if two posts had same ID do someting
 				$permalink = get_permalink( $post_id );
 				if($permalink) wp_redirect( get_permalink( $post_id ), 301 );
