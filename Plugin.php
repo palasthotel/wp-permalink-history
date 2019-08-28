@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Permalink History
  * Description: Saves a history of posts permalinks
- * Version: 1.0.2
+ * Version: 1.0.3
  * Author: PALASTHOTEL (by Edward Bock)
  * Author URI: https://palasthotel.de
  * Text Domain: permalink-history
@@ -34,6 +34,8 @@ class Plugin {
 		$this->url = plugin_dir_url(__FILE__);
 
 		require_once dirname(__FILE__)."/vendor/autoload.php";
+
+		require_once dirname(__FILE__)."/classes/WPCli.php";
 
 		$this->database  = new Database();
 		$this->post      = new Post($this);

@@ -1,51 +1,35 @@
 <?php
-define( 'WP_MEMORY_LIMIT', '2G' );
-define( 'DISABLE_WP_CRON', 'true' );
 
-$paths = explode( 'wp-content', __FILE__ );
-require_once( $paths[0] . 'wp-load.php' );
 
-if ( 1 == count( $argv ) ) {
-	?>
-	Usage: permalink-history [operation] [parameters]
+namespace Palasthotel\PermalinkHistory;
 
-	Operations:
-	check - show permalink history stats.
-	init - start initialization of all posts that have no history yet.
-	show - rolls back a migration.
+if(!defined('WP_CLI') || !WP_CLI) return;
 
-	check usage:
-	permalink-history check
+class WPCli {
 
-	init usage:
-	permalink-history init [--perPage=100]
-
-	--perPage - number of post ids queried per round
-
-	show usage:
-	permalink-history show [post_id]
-
-	<?php
-	return;
-}
-
-$plugin = \Palasthotel\PermalinkHistory\Plugin::get_instance();
-
-switch ( $argv[1] ) {
-	case "check":
-		echo "\n";
-		$content_types = $plugin->database->getContentTypes();
-		echo "There is history for the following content types:\n";
-		foreach ( $content_types as $type ) {
-			$count = $plugin->database->getCount( $type );
-			echo " - '$type' with $count items\n";
-		}
-		echo "\n";
-		break;
-	case "init":
+	/**
+	 * Initialize permalink history
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--perPage=<number>]
+	 * : Number of contents per query
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp permalink-history init --perPage=10
+	 *
+	 * @when after_wp_load
+	 *
+	 * @param $args
+	 * @param $assoc_args
+	 */
+	function init($args, $assoc_args){
+		$plugin = Plugin::get_instance();
 		echo "\n";
 
-		$limit = ( isset( $argv[2] ) && intval( str_replace( "--perPage=", "", $argv[2] ) ) > 0 ) ? intval( str_replace( "--perPage=", "", $argv[2] ) ) : 100;
+		$limit = ( isset( $assoc_args['perPage'] ) && intval( $assoc_args['perPage'] ) > 0)?
+			intval( $assoc_args['perPage'] ) : 100;
 
 		echo "Try to initialize history of posts without permalink history...\n";
 
@@ -124,11 +108,32 @@ switch ( $argv[1] ) {
 
 		echo "\n";
 
+	}
 
-		break;
-	case "show":
-
-		break;
-	default:
-		echo "unknown command";
+	/**
+	 * Check permalink history
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp permalink-history check
+	 *
+	 * @when after_wp_load
+	 *
+	 * @param $args
+	 * @param $assoc_args
+	 */
+	function check($args, $assoc_args){
+		echo "\n";
+		$plugin = Plugin::get_instance();
+		$content_types = $plugin->database->getContentTypes();
+		echo "There is history for the following content types:\n";
+		foreach ( $content_types as $type ) {
+			$count = $plugin->database->getCount( $type );
+			echo " - '$type' with $count items\n";
+		}
+		echo "\n";
+	}
 }
+
+
+\WP_CLI::add_command( 'permalink-history', __NAMESPACE__.'\WPCli' );
