@@ -4,7 +4,7 @@ Donate link: https://palasthotel.de/
 Tags: seo, permalink, backup, protocol, history
 Requires at least: 4.0
 Tested up to: 5.2.2
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -41,8 +41,12 @@ But to be honest. Perhaps it could get an issue, yes. Therefore you export a red
 
 == Changelog ==
 
-= 1.0.3 =
+= 1.0.4 =
 * Feature: WP Cli extension
+
+= 1.0.3 =
+* Optimization: on check for redirect in frontend (!is_admin())
+* Bugfix: only redirect posts with status publish
 
 = 1.0.2 =
 * Bugfix: Was redirecting too early. Works now with amp plugin.

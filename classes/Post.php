@@ -86,6 +86,9 @@ class Post {
 		return Utils::getUrlPath( get_permalink( $post_id ) );
 	}
 
+	/**
+	 * @param int $post_id
+	 */
 	function on_deleted($post_id){
 		$this->plugin->database->deletePostPermalinkHistory($post_id);
 	}
