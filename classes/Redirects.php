@@ -37,9 +37,8 @@ class Redirects {
 			global $wp;
 			$post_id = $this->plugin->database->getPostId( $wp->request );
 			if ( $post_id > 0 && get_post_status($post_id) == "publish") {
-				// TODO: if two posts had same ID do someting
 				$permalink = get_permalink( $post_id );
-				if($permalink) wp_redirect( get_permalink( $post_id ), 301 );
+				if($permalink) wp_redirect( $permalink, 301 );
 			}
 			$term_taxonomy_id = $this->plugin->database->getTermTaxonomyId($wp->request);
 			if($term_taxonomy_id > 0){
