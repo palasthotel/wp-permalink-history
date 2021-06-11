@@ -2,9 +2,9 @@
 Contributors: edwardbock, palasthotel
 Donate link: https://palasthotel.de/
 Tags: seo, permalink, backup, protocol, history
-Requires at least: 4.0
-Tested up to: 5.4.2
-Stable tag: 1.0.5
+Requires at least: 5.0
+Tested up to: 5.7.2
+Stable tag: 1.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -40,6 +40,9 @@ But to be honest. Perhaps it could get an issue, yes. Therefore you export a red
 == Screenshots ==
 
 == Changelog ==
+
+= 1.1.0 =
+* Optimization: multisite compatibility
 
 = 1.0.5 =
 * Optimization: Performance optimization by reducing redundant function calls

@@ -21,7 +21,7 @@ class ComposerStaticInit3d3f8d1991bb14c91265db0ad36c78b3
     );
 
     public static $classMap = array (
-        'Palasthotel\\PermalinkHistory\\Database' => __DIR__ . '/../..' . '/classes/Database.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

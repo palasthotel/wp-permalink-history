@@ -10,10 +10,9 @@ namespace Palasthotel\PermalinkHistory;
 
 
 /**
- * @property \wpdb wpdb
  * @property string $tablename
  */
-class Database {
+class Database extends Components\Database {
 
 	const CONTENT_TYPE_POST = "post";
 
@@ -22,10 +21,8 @@ class Database {
 	/**
 	 * Database constructor.
 	 */
-	public function __construct() {
-		global $wpdb;
-		$this->wpdb      = $wpdb;
-		$this->tablename = $wpdb->prefix . "permalink_history";
+	public function init() {
+		$this->tablename = $this->wpdb->prefix . "permalink_history";
 	}
 
 	/**
@@ -95,9 +92,10 @@ class Database {
 	public function getId( $permalink_without_domain, $content_type ) {
 		return intval( $this->wpdb->get_var(
 			$this->wpdb->prepare(
-				"SELECT content_id FROM $this->tablename WHERE permalink IN ( %s, %s, %s ) AND content_type = %s LIMIT 1",
+				"SELECT content_id FROM $this->tablename WHERE permalink IN ( %s, %s, %s, %s ) AND content_type = %s ORDER BY id DESC LIMIT 1",
 				$permalink_without_domain,
 				"/" . $permalink_without_domain,
+				$permalink_without_domain."/",
 				"/" . $permalink_without_domain . "/",
 				$content_type
 			)
@@ -132,9 +130,10 @@ class Database {
 	public function permalinkHistoryExists( $content_id, $permalink_without_domain, $content_type ) {
 		return intval( $this->wpdb->get_var(
 				$this->wpdb->prepare(
-					"SELECT count(id) FROM $this->tablename WHERE permalink IN ( %s, %s, %s ) AND content_type = %s AND content_id = %d",
+					"SELECT count(id) FROM $this->tablename WHERE permalink IN ( %s, %s, %s, %s ) AND content_type = %s AND content_id = %d",
 					$permalink_without_domain,
 					"/" . $permalink_without_domain,
+					$permalink_without_domain. "/",
 					"/" . $permalink_without_domain . "/",
 					$content_type,
 					$content_id
@@ -329,8 +328,8 @@ class Database {
 	/**
 	 * create tables
 	 */
-	public function create() {
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+	public function createTables() {
+		parent::createTables();
 		dbDelta( "CREATE TABLE IF NOT EXISTS $this->tablename (
 			 id bigint(20) unsigned not null auto_increment,
 			 content_id bigint(20) unsigned not null,

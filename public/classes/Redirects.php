@@ -23,7 +23,7 @@ class Redirects {
 	 */
 	public function __construct( Plugin $plugin ) {
 		$this->plugin  = $plugin;
-		$this->ajaxurl = "/wp-admin/admin-ajax.php?action=" . self::ACTION;
+		$this->ajaxurl = admin_url("/admin-ajax.php?action=".self::ACTION);
 
 		add_action( 'template_redirect', array( $this, 'on_404' ), 99 );
 		add_action( 'wp_ajax_' . self::ACTION, array( $this, 'ajax_redirect_map' ) );
@@ -35,17 +35,21 @@ class Redirects {
 	function on_404() {
 		if ( !is_admin() && is_404() ) {
 			global $wp;
-			$post_id = $this->plugin->database->getPostId( $wp->request );
+			$requestPath = $wp->request;
+			if(is_multisite()){
+				$requestPath = get_blog_details()->path.$requestPath;
+			}
+			$post_id = $this->plugin->database->getPostId( $requestPath );
 			if ( $post_id > 0 && get_post_status($post_id) == "publish") {
 				$permalink = get_permalink( $post_id );
 				if($permalink) wp_redirect( $permalink, 301 );
 			}
-			$term_taxonomy_id = $this->plugin->database->getTermTaxonomyId($wp->request);
+			$term_taxonomy_id = $this->plugin->database->getTermTaxonomyId($requestPath);
 			if($term_taxonomy_id > 0){
 				$term = $this->plugin->term_taxonomy->getTerm($term_taxonomy_id);
 				if($term instanceof \WP_Term) wp_redirect( get_term_link($term), 301 );
 			}
-			do_action(Plugin::ACTION_REDIRECT_404, $wp->request);
+			do_action(Plugin::ACTION_REDIRECT_404, $requestPath);
 		}
 	}
 
@@ -69,7 +73,7 @@ class Redirects {
 				continue;
 			}
 			if ( ! $first ) {
-				echo "\n";
+				echo "<br/>";
 			}
 			echo $item->permalink . " " . $permalink;
 			$first = false;

@@ -3,8 +3,6 @@
 
 namespace Palasthotel\PermalinkHistory;
 
-if(!defined('WP_CLI') || !WP_CLI) return;
-
 class WPCli {
 
 	/**
@@ -25,7 +23,7 @@ class WPCli {
 	 * @param $assoc_args
 	 */
 	function init($args, $assoc_args){
-		$plugin = Plugin::get_instance();
+		$plugin = Plugin::instance();
 		echo "\n";
 
 		$limit = ( isset( $assoc_args['perPage'] ) && intval( $assoc_args['perPage'] ) > 0)?
@@ -124,7 +122,7 @@ class WPCli {
 	 */
 	function check($args, $assoc_args){
 		echo "\n";
-		$plugin = Plugin::get_instance();
+		$plugin = Plugin::instance();
 		$content_types = $plugin->database->getContentTypes();
 		echo "There is history for the following content types:\n";
 		foreach ( $content_types as $type ) {
@@ -134,6 +132,3 @@ class WPCli {
 		echo "\n";
 	}
 }
-
-
-\WP_CLI::add_command( 'permalink-history', __NAMESPACE__.'\WPCli' );

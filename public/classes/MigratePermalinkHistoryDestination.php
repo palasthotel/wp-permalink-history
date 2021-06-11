@@ -18,7 +18,7 @@ class MigratePermalinkHistoryDestination extends \ph_destination{
 	 *
 	 */
 	public function __construct() {
-		$this->plugin = Plugin::get_instance();
+		$this->plugin = Plugin::instance();
 	}
 
 	public function createItem()

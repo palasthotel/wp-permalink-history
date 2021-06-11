@@ -30,7 +30,7 @@ class Settings {
 	public function custom_permalink_settings() {
 		add_settings_section(
 			'permalink-history-settings', // ID
-			'Permalink History', // Section title
+			__('Permalink History', Plugin::DOMAIN), // Section title
 			array($this, 'render'), // Callback for your function
 			'permalink' // Location (Settings > Permalinks)
 		);
@@ -42,6 +42,8 @@ class Settings {
 	public function render(){
 		// TODO: make this async call with paged redirects response and render it into a textarea
 		$url = $this->plugin->redirects->ajaxurl;
-		echo "<p><a href='$url' target='_blank'>Generate redirects map (this can take a while)...</a></p>";
+		echo "<p><a href='$url' target='_blank'>";
+		_e("Generate redirects map (this can take a while)...", Plugin::DOMAIN);
+		echo "</a></p>";
 	}
 }

@@ -38,13 +38,13 @@ function migrate_handler( $post, $fields ) {
 	/**
 	 * delete old history items
 	 */
-	Plugin::get_instance()->database->deletePostPermalinkHistory($post["ID"]);
+	Plugin::instance()->database->deletePostPermalinkHistory($post["ID"]);
 
 	/**
 	 * save to history
 	 */
 	foreach ( $permalinks as $p ) {
-		Plugin::get_instance()->database->addPostPermalink( $post["ID"], $p );
+		Plugin::instance()->database->addPostPermalink( $post["ID"], $p );
 	}
 
 }
