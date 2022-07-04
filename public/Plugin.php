@@ -12,6 +12,7 @@
 namespace Palasthotel\PermalinkHistory;
 
 use Palasthotel\PermalinkHistory\Components\TextdomainConfig;
+use Palasthotel\PermalinkHistory\UseCase\FindRedirectUseCase;
 
 require_once dirname( __FILE__ ) . "/vendor/autoload.php";
 
@@ -25,6 +26,8 @@ require_once dirname( __FILE__ ) . "/vendor/autoload.php";
  * @property string url
  * @property MetaBox meta_box
  * @property TermTaxonomy term_taxonomy
+ * @property Ajax $ajax
+ * @property FindRedirectUseCase $findRedirectsUseCase
  */
 class Plugin extends Components\Plugin {
 
@@ -46,8 +49,11 @@ class Plugin extends Components\Plugin {
 		$this->redirects     = new Redirects( $this );
 		$this->settings      = new Settings( $this );
 		$this->meta_box      = new MetaBox( $this );
+		$this->ajax          = new Ajax( $this );
 
-		if ( defined( 'WP_CLI' ) && WP_CLI && class_exists("WP_CLI") ) {
+		$this->findRedirectsUseCase = new FindRedirectUseCase($this);
+
+		if ( defined( 'WP_CLI' ) && WP_CLI && class_exists( "WP_CLI" ) ) {
 			\WP_CLI::add_command( 'permalink-history', __NAMESPACE__ . '\WPCli' );
 		}
 
@@ -65,7 +71,7 @@ class Plugin extends Components\Plugin {
 	 * @return mixed|Plugin
 	 * @deprecated use Plugin::instance() instead
 	 */
-	public static function get_instance(){
+	public static function get_instance() {
 		return self::instance();
 	}
 

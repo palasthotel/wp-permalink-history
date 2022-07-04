@@ -36,18 +36,10 @@ class Redirects {
 		if ( !is_admin() && is_404() ) {
 			global $wp;
 			$requestPath = $wp->request;
-			if(is_multisite()){
-				$requestPath = get_blog_details()->path.$requestPath;
-			}
-			$post_id = $this->plugin->database->getPostId( $requestPath );
-			if ( $post_id > 0 && get_post_status($post_id) == "publish") {
-				$permalink = get_permalink( $post_id );
-				if($permalink) wp_redirect( $permalink, 301 );
-			}
-			$term_taxonomy_id = $this->plugin->database->getTermTaxonomyId($requestPath);
-			if($term_taxonomy_id > 0){
-				$term = $this->plugin->term_taxonomy->getTerm($term_taxonomy_id);
-				if($term instanceof \WP_Term) wp_redirect( get_term_link($term), 301 );
+			$url = $this->plugin->findRedirectsUseCase->find($requestPath);
+			if(!empty($url)) {
+				wp_redirect( $url, 301 );
+				exit;
 			}
 			do_action(Plugin::ACTION_REDIRECT_404, $requestPath);
 		}
