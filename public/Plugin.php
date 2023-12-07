@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Permalink History
  * Description: Saves a history of posts permalinks
- * Version: 1.2.0
+ * Version: 1.2.1
  * Author: PALASTHOTEL (by Edward Bock)
  * Author URI: https://palasthotel.de
  * Text Domain: permalink-history
@@ -34,6 +34,8 @@ class Plugin extends Components\Plugin {
 	const DOMAIN = "permalink-history";
 
 	const ACTION_REDIRECT_404 = "permalink_history_redirect_404";
+    const FILTER_FIND_REDIRECT_BEFORE = "permalink_history_find_redirect_before";
+    const FILTER_FIND_REDIRECT_AFTER = "permalink_history_find_redirect_after";
 
 	public function onCreate() {
 
@@ -78,3 +80,5 @@ class Plugin extends Components\Plugin {
 }
 
 Plugin::instance();
+
+require_once __DIR__."/public-functions.php";

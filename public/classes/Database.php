@@ -102,6 +102,15 @@ class Database extends Components\Database {
 		) );
 	}
 
+	public function findId(string $path, string $content_type): int {
+		$escaped = $this->wpdb->esc_like($path);
+		$query = $this->wpdb->prepare(
+			"SELECT content_id FROM $this->tablename WHERE permalink LIKE '%$escaped%' AND content_type = %s ORDER BY id DESC LIMIT 1",
+			$content_type
+		);
+		return intval($this->wpdb->get_var($query));
+	}
+
 	/**
 	 * @param string $permalink_without_domain
 	 *

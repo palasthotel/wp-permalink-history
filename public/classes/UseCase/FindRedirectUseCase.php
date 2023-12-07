@@ -23,6 +23,10 @@ class FindRedirectUseCase {
 		if(is_multisite()){
 			$requestPath = get_blog_details()->path.$requestPath;
 		}
+
+        $before = apply_filters(Plugin::FILTER_FIND_REDIRECT_BEFORE, null, $requestPath);
+        if(is_string($before) && !empty($before)) return $before;
+
 		$post_id = $this->plugin->database->getPostId( $requestPath );
 		if ( $post_id > 0 && get_post_status($post_id) == "publish") {
 			$permalink = get_permalink( $post_id );
@@ -34,7 +38,8 @@ class FindRedirectUseCase {
 			$term = $this->plugin->term_taxonomy->getTerm($term_taxonomy_id);
 			if($term instanceof \WP_Term) return get_term_link($term);
 		}
-		return null;
+
+		return apply_filters(Plugin::FILTER_FIND_REDIRECT_AFTER, null, $requestPath);
 	}
 
 }
