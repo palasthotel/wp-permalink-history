@@ -3,8 +3,8 @@ Contributors: edwardbock, palasthotel
 Donate link: https://palasthotel.de/
 Tags: seo, permalink, backup, protocol, history
 Requires at least: 5.0
-Tested up to: 6.0.0
-Stable tag: 1.2.0
+Tested up to: 6.4.2
+Stable tag: 1.3.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -40,6 +40,9 @@ But to be honest. Perhaps it could get an issue, yes. Therefore you export a red
 == Screenshots ==
 
 == Changelog ==
+
+= 1.3.0 =
+* Added filters for find redirect use case extensions
 
 = 1.2.0 =
 * Added admin ajax endpoint for permalink history mapping
