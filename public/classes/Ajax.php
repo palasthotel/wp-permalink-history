@@ -2,11 +2,9 @@
 
 namespace Palasthotel\PermalinkHistory;
 
-/**
- * @property Plugin $plugin
- */
 class Ajax {
 
+    public Plugin $plugin;
 
 	public function __construct(Plugin $plugin) {
 		$this->plugin = $plugin;

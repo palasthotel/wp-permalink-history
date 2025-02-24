@@ -8,17 +8,9 @@
 
 namespace Palasthotel\PermalinkHistory;
 
-
-/**
- * @property Plugin plugin
- */
 class TermTaxonomy {
 
-	/**
-	 * Post constructor.
-	 *
-	 * @param Plugin $plugin
-	 */
+	public Plugin $plugin;
 	public function __construct( Plugin $plugin ) {
 		$this->plugin = $plugin;
 		// TODO: delete history on delete

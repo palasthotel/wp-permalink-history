@@ -4,20 +4,14 @@ namespace Palasthotel\PermalinkHistory\UseCase;
 
 use Palasthotel\PermalinkHistory\Plugin;
 
-/**
- * @property Plugin $plugin
- */
 class FindRedirectUseCase {
+
+    public Plugin $plugin;
 
 	public function __construct(Plugin $plugin) {
 		$this->plugin = $plugin;
 	}
-
-	/**
-	 * @param string $requestPath
-	 *
-	 * @return null|string
-	 */
+    
 	public function find(string $requestPath): ?string {
 		if(empty($requestPath)) return null;
 		if(is_multisite()){

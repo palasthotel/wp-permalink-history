@@ -5,20 +5,18 @@ namespace Palasthotel\PermalinkHistory\Components;
 use ReflectionException;
 
 /**
- * @property string path
- * @property string url
- * @property string basename
  * @since 0.1.1
  */
 abstract class Plugin {
+    
+    public TextdomainConfig|null $textdomainConfig;
+    
+    public string $path;
+    public string $url;
+    public string $basename;
 
-	/**
-	 * @var TextdomainConfig|null
-	 */
-	var $textdomainConfig;
-
-	/**
-	 * @throws ReflectionException
+    /**
+     * @throws ReflectionException
 	 */
 	public function __construct() {
 		$ref            = new \ReflectionClass( get_called_class() );

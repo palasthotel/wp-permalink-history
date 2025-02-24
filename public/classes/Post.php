@@ -8,17 +8,10 @@
 
 namespace Palasthotel\PermalinkHistory;
 
-
-/**
- * @property Plugin plugin
- */
 class Post {
+    
+     public Plugin $plugin;
 
-	/**
-	 * Post constructor.
-	 *
-	 * @param Plugin $plugin
-	 */
 	public function __construct( Plugin $plugin ) {
 		$this->plugin = $plugin;
 		// TODO: clean history if delete post

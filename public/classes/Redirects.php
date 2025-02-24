@@ -8,19 +8,13 @@
 
 namespace Palasthotel\PermalinkHistory;
 
-/**
- * @property Plugin plugin
- * @property string ajaxurl
- */
 class Redirects {
 
 	const ACTION = "permalink_history_map";
 
-	/**
-	 * Redirect constructor.
-	 *
-	 * @param Plugin $plugin
-	 */
+	public Plugin $plugin;
+    public string $ajaxurl;
+
 	public function __construct( Plugin $plugin ) {
 		$this->plugin  = $plugin;
 		$this->ajaxurl = admin_url("/admin-ajax.php?action=".self::ACTION);

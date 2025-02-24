@@ -8,17 +8,10 @@
 
 namespace Palasthotel\PermalinkHistory;
 
-
-/**
- * @property Plugin plugin
- */
 class Settings {
 
-	/**
-	 * Settings constructor.
-	 *
-	 * @param Plugin $plugin
-	 */
+	public Plugin $plugin;
+
 	public function __construct(Plugin $plugin) {
 		$this->plugin = $plugin;
 		add_action('admin_init', array($this,'custom_permalink_settings'));

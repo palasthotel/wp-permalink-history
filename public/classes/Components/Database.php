@@ -6,10 +6,11 @@ namespace Palasthotel\PermalinkHistory\Components;
 use wpdb;
 
 /**
- * @property wpdb wpdb
  * @version 0.1.1
  */
 abstract class Database {
+
+    public wpdb $wpdb;
 
 	public function __construct() {
 		global $wpdb;

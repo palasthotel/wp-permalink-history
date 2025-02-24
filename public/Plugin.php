@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Permalink History
  * Description: Saves a history of posts permalinks
- * Version: 1.3.0
- * Author: PALASTHOTEL (by Edward Bock)
+ * Version: 1.3.1
+ * Author: PALASTHOTEL (by Edward Bock, Lucas Regalar)
  * Author URI: https://palasthotel.de
  * Text Domain: permalink-history
  * Domain Path: /languages
@@ -16,19 +16,6 @@ use Palasthotel\PermalinkHistory\UseCase\FindRedirectUseCase;
 
 require_once dirname( __FILE__ ) . "/vendor/autoload.php";
 
-/**
- * @property Database database
- * @property Post post
- * @property Migrate migrate
- * @property Redirects $redirects
- * @property Settings settings
- * @property string path
- * @property string url
- * @property MetaBox meta_box
- * @property TermTaxonomy term_taxonomy
- * @property Ajax $ajax
- * @property FindRedirectUseCase $findRedirectsUseCase
- */
 class Plugin extends Components\Plugin {
 
 	const DOMAIN = "permalink-history";
@@ -36,6 +23,18 @@ class Plugin extends Components\Plugin {
 	const ACTION_REDIRECT_404 = "permalink_history_redirect_404";
     const FILTER_FIND_REDIRECT_BEFORE = "permalink_history_find_redirect_before";
     const FILTER_FIND_REDIRECT_AFTER = "permalink_history_find_redirect_after";
+
+    public Database $database;
+    public Post $post;
+    public Migrate $migrate;
+    public Redirects $redirects;
+    public Settings $settings;
+    public string $path;
+    public string $url;
+    public MetaBox $meta_box;
+    public TermTaxonomy $term_taxonomy;
+    public Ajax $ajax;
+    public FindRedirectUseCase $findRedirectsUseCase;
 
 	public function onCreate() {
 

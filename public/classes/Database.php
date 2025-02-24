@@ -8,16 +8,14 @@
 
 namespace Palasthotel\PermalinkHistory;
 
-
-/**
- * @property string $tablename
- */
 class Database extends Components\Database {
 
 	const CONTENT_TYPE_POST = "post";
 
 	const CONTENT_TYPE_TERM_TAXONOMY = "term_taxonomy";
 
+
+    public string $tablename;
 	/**
 	 * Database constructor.
 	 */
