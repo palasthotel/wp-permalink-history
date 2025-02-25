@@ -1,5 +1,5 @@
 === Permalink History ===
-Contributors: edwardbock, palasthotel
+Contributors: edwardbock, palasthotel, lucasregalar
 Donate link: https://palasthotel.de/
 Tags: seo, permalink, backup, protocol, history
 Requires at least: 5.0
