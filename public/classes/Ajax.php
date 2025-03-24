@@ -14,6 +14,16 @@ class Ajax {
 	}
 
 	public function ajax(){
+
+		if(isset($_GET["id"])){
+			$id = intval($_GET["id"]);
+			$contentType = isset($_GET["contentType"]) ?
+				sanitize_text_field($_GET["contentType"]) :
+				Database::CONTENT_TYPE_POST;
+			wp_send_json($this->plugin->findRedirectsUseCase->getById($id, $contentType));
+			return;
+		}
+
 		$path = sanitize_text_field($_GET["path"]);
 		$url = $this->plugin->findRedirectsUseCase->find($path);
 		$path = !empty($url) ? str_replace(home_url(), "", $url) : null;

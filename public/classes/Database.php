@@ -70,14 +70,9 @@ class Database extends Components\Database {
 		return $this->addPermalink( $taxonomy_term_id, self::CONTENT_TYPE_TERM_TAXONOMY, $permalink_without_domain );
 	}
 
-	/**
-	 * @param int $id
-	 *
-	 * @return HistoryItem|null
-	 */
-	public function getById( $id ) {
+	public function getById( int $id ) {
 		return HistoryItem::parse( $this->wpdb->get_row(
-			$this->wpdb->prepare( "SELECT * FROM $this->tablename+ WHERE id = %d", $id )
+			$this->wpdb->prepare( "SELECT * FROM $this->tablename WHERE id = %d", $id)
 		) );
 	}
 

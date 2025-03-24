@@ -2,6 +2,7 @@
 
 namespace Palasthotel\PermalinkHistory\UseCase;
 
+use Palasthotel\PermalinkHistory\Database;
 use Palasthotel\PermalinkHistory\Plugin;
 
 class FindRedirectUseCase {
@@ -11,7 +12,11 @@ class FindRedirectUseCase {
 	public function __construct(Plugin $plugin) {
 		$this->plugin = $plugin;
 	}
-    
+
+	public function historyFor(int $id, string $contentType = Database::CONTENT_TYPE_POST ): array {
+		return $this->plugin->database->getHistoryFor($id, $contentType);
+	}
+
 	public function find(string $requestPath): ?string {
 		if(empty($requestPath)) return null;
 		if(is_multisite()){
