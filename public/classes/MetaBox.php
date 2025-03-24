@@ -29,9 +29,10 @@ class MetaBox {
 
 	public function render(){
 		$permalink = $this->plugin->post->getEscapedPermalink(get_the_ID());
-		$history = array_filter($this->plugin->database->getHistoryFor(get_the_ID(), get_post_type()), function($item) use ($permalink){
+		$history = array_filter($this->plugin->database->getHistoryFor(get_the_ID(), Database::CONTENT_TYPE_POST), function($item) use ($permalink){
 			return $item->permalink !== $permalink;
 		});
+
 		if(count($history)){
 			echo "<ul>";
 			foreach ($history as $item){
