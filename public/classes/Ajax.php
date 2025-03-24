@@ -20,7 +20,7 @@ class Ajax {
 			$contentType = isset($_GET["contentType"]) ?
 				sanitize_text_field($_GET["contentType"]) :
 				Database::CONTENT_TYPE_POST;
-			wp_send_json($this->plugin->findRedirectsUseCase->getById($id, $contentType));
+			wp_send_json($this->plugin->findRedirectsUseCase->historyFor($id, $contentType));
 			return;
 		}
 
