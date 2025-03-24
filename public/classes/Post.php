@@ -9,15 +9,15 @@
 namespace Palasthotel\PermalinkHistory;
 
 class Post {
-    
-     public Plugin $plugin;
 
-	public function __construct( Plugin $plugin ) {
+	public Plugin $plugin;
+
+	public function __construct(Plugin $plugin) {
 		$this->plugin = $plugin;
 		// TODO: clean history if delete post
-		add_action( 'save_post', array( $this, 'on_save' ), 1 );
-		add_action( 'get_header', array( $this, 'save_history' ) );
-		add_action( 'deleted_post', array($this, 'on_deleted'));
+		add_action('save_post', array($this, 'on_save'), 1, 2);
+		add_action('get_header', array($this, 'save_history'));
+		add_action('deleted_post', array($this, 'on_deleted'));
 	}
 
 	/**
@@ -26,16 +26,20 @@ class Post {
 	 *
 	 * @param $post_id
 	 */
-	function on_save( $post_id ) {
+	function on_save($post_id, \WP_Post $post) {
 
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 			return;
 		}
-		if ( ! current_user_can( "edit_post", $post_id ) ) {
+		if (!current_user_can("edit_post", $post_id)) {
+			return;
+		}
+		$allowedStatus = ["publish", "private"];
+		if (!in_array($post->post_status, $allowedStatus)) {
 			return;
 		}
 
-		$this->savePermalinkInHistory( $post_id );
+		$this->savePermalinkInHistory($post_id);
 	}
 
 	/**
@@ -48,7 +52,7 @@ class Post {
 			&&
 			is_singular()
 		) {
-			$this->savePermalinkInHistory( get_the_ID() );
+			$this->savePermalinkInHistory(get_the_ID());
 		}
 	}
 
@@ -57,10 +61,10 @@ class Post {
 	 *
 	 * @return false|int
 	 */
-	function savePermalinkInHistory( $post_id ) {
+	function savePermalinkInHistory($post_id) {
 
-		$permalink = $this->getEscapedPermalink( $post_id );
-		if ( $this->plugin->database->postPermalinkHistoryExists($post_id, $permalink ) ) {
+		$permalink = $this->getEscapedPermalink($post_id);
+		if ($this->plugin->database->postPermalinkHistoryExists($post_id, $permalink)) {
 			return false;
 		}
 
@@ -75,14 +79,14 @@ class Post {
 	 *
 	 * @return string
 	 */
-	function getEscapedPermalink( $post_id ) {
-		return Utils::getUrlPath( get_permalink( $post_id ) );
+	function getEscapedPermalink($post_id) {
+		return Utils::getUrlPath(get_permalink($post_id));
 	}
 
 	/**
 	 * @param int $post_id
 	 */
-	function on_deleted($post_id){
+	function on_deleted($post_id) {
 		$this->plugin->database->deletePostPermalinkHistory($post_id);
 	}
 }

@@ -41,6 +41,9 @@ But to be honest. Perhaps it could get an issue, yes. Therefore you export a red
 
 == Changelog ==
 
+= 1.4.1 =
+* Fix: only save permalinks of publish posts
+
 = 1.4.0 =
 * Feature: get history by content id ajax endpoint
 * Fix: database getById sql
