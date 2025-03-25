@@ -14,7 +14,6 @@ class Post {
 
 	public function __construct(Plugin $plugin) {
 		$this->plugin = $plugin;
-		// TODO: clean history if delete post
 		add_action('save_post', array($this, 'on_save'), 1, 2);
 		add_action('get_header', array($this, 'save_history'));
 		add_action('deleted_post', array($this, 'on_deleted'));
@@ -36,6 +35,11 @@ class Post {
 		}
 		$allowedStatus = ["publish", "private"];
 		if (!in_array($post->post_status, $allowedStatus)) {
+			return;
+		}
+
+		$permalinkStructure = get_option( 'permalink_structure' );
+		if(empty($permalinkStructure)) {
 			return;
 		}
 
