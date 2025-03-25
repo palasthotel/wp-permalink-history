@@ -197,9 +197,9 @@ class Database extends Components\Database {
 		// because there were cases where there have been orphaned term_taxonomy entries
 		return $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT tt.term_taxonomy_id as id FROM $wpdb->terms as t LEFT JOIN $wpdb->term_taxonomy as tt ON (t.term_id = tt.term_id) 
-				WHERE tt.term_taxonomy_id NOT IN ( 
-				  SELECT DISTINCT content_id FROM $this->tablename WHERE content_type = %s 
+				"SELECT tt.term_taxonomy_id as id FROM $wpdb->terms as t LEFT JOIN $wpdb->term_taxonomy as tt ON (t.term_id = tt.term_id)
+				WHERE tt.term_taxonomy_id NOT IN (
+				  SELECT DISTINCT content_id FROM $this->tablename WHERE content_type = %s
 				)
 				LIMIT $offset, $limit",
 				self::CONTENT_TYPE_TERM_TAXONOMY
@@ -225,17 +225,21 @@ class Database extends Components\Database {
 	}
 
 	/**
-	 * @param $content_type
 	 *
 	 * @return HistoryItem[]
 	 */
-	public function getHistoryOf( $content_type ) {
+	public function getHistoryOf( string $content_type, int $limit = 1000, int $page = 0 ) {
 		return array_map(
 			function ($item) {
 				return HistoryItem::parse($item);
 			},
 			$this->wpdb->get_results(
-				$this->wpdb->prepare( "SELECT * FROM $this->tablename WHERE content_type = %s order by id", $content_type )
+				$this->wpdb->prepare(
+					"SELECT * FROM $this->tablename WHERE content_type = %s order by id LIMIT %d OFFSET %d",
+					$content_type,
+					$limit,
+					$page * $limit
+				)
 			)
 		);
 	}
@@ -243,15 +247,15 @@ class Database extends Components\Database {
 	/**
 	 * @return HistoryItem[]
 	 */
-	public function getPostHistory() {
-		return $this->getHistoryOf( self::CONTENT_TYPE_POST );
+	public function getPostHistory($limit = 1000, $page = 0 ) {
+		return $this->getHistoryOf( self::CONTENT_TYPE_POST, $limit, $page );
 	}
 
 	/**
 	 * @return HistoryItem[]
 	 */
-	public function getTermTaxonomyHistory() {
-		return $this->getHistoryOf( self::CONTENT_TYPE_TERM_TAXONOMY );
+	public function getTermTaxonomyHistory($limit = 1000, $page = 0 ) {
+		return $this->getHistoryOf( self::CONTENT_TYPE_TERM_TAXONOMY, $limit, $page );
 	}
 
 	/**
