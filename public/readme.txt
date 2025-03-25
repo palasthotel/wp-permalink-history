@@ -4,7 +4,7 @@ Donate link: https://palasthotel.de/
 Tags: seo, permalink, backup, protocol, history
 Requires at least: 5.0
 Tested up to: 6.7.2
-Stable tag: 1.4.0
+Stable tag: 2.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -41,7 +41,10 @@ But to be honest. Perhaps it could get an issue, yes. Therefore you export a red
 
 == Changelog ==
 
-= 1.4.1 =
+= 2.0.0 =
+* Breaking: Dropped support for meta box (classic editor)
+* Feature: Gutenberg document settings panel for permalink history
+* Feature: full permalink history endpoint
 * Fix: only save permalinks of publish posts
 
 = 1.4.0 =
