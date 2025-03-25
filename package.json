@@ -1,0 +1,38 @@
+{
+	"name": "@palasthotel/permalink-history",
+	"version": "2.0.0",
+	"license": "MIT",
+	"scripts": {
+		"wp-env": "wp-env",
+		"wp-env:start": "wp-env start",
+		"wp-env:stop": "wp-env stop",
+		"build": "wp-scripts build ./src/gutenberg.ts  --output-path=./public/dist",
+		"dev": "wp-scripts start ./src/gutenberg.ts --output-path=./public/dist",
+		"pack": "./bin/build-plugin.sh"
+	},
+	"prettier": "@wordpress/prettier-config",
+	"devDependencies": {
+		"@types/wordpress__block-editor": "^11.5.16",
+		"@types/wordpress__blocks": "^12.5.17",
+		"@types/wordpress__edit-post": "^8.4.2",
+		"@wordpress/block-editor": "^14.15.0",
+		"@wordpress/components": "^29.6.0",
+		"@wordpress/core-data": "^7.20.0",
+		"@wordpress/data": "^10.20.0",
+		"@wordpress/edit-post": "^8.20.0",
+		"@wordpress/element": "^6.20.0",
+		"@wordpress/env": "^10.20.0",
+		"@wordpress/i18n": "^5.20.0",
+		"@wordpress/plugins": "^7.20.0",
+		"@wordpress/prettier-config": "^4.20.0",
+		"@wordpress/scripts": "^30.13.0",
+		"prettier": "^3.5.3"
+	},
+	"engines": {
+		"node": ">=22",
+		"pnpm": ">=10"
+	},
+	"volta": {
+		"node": "22.14.0"
+	}
+}

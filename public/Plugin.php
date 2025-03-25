@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Permalink History
  * Description: Saves a history of posts permalinks
- * Version: 1.4.0
+ * Version: 2.0.0
  * Author: PALASTHOTEL (by Edward Bock, Lucas Regalar)
  * Author URI: https://palasthotel.de
  * Text Domain: permalink-history
@@ -11,6 +11,7 @@
 
 namespace Palasthotel\PermalinkHistory;
 
+use Palasthotel\PermalinkHistory\Components\Assets;
 use Palasthotel\PermalinkHistory\Components\TextdomainConfig;
 use Palasthotel\PermalinkHistory\UseCase\FindRedirectUseCase;
 
@@ -24,6 +25,11 @@ class Plugin extends Components\Plugin {
     const FILTER_FIND_REDIRECT_BEFORE = "permalink_history_find_redirect_before";
     const FILTER_FIND_REDIRECT_AFTER = "permalink_history_find_redirect_after";
 
+	const HANDLE_SCRIPT_GUTENBERG = "permalink_history_js";
+	const HANDLE_STYLE_GUTENBERG = "permalink_history_css";
+
+	const REST_NAMESPACE_V1 = "permalink-history/v1";
+
     public Database $database;
     public Post $post;
     public Migrate $migrate;
@@ -31,10 +37,10 @@ class Plugin extends Components\Plugin {
     public Settings $settings;
     public string $path;
     public string $url;
-    public MetaBox $meta_box;
     public TermTaxonomy $term_taxonomy;
     public Ajax $ajax;
     public FindRedirectUseCase $findRedirectsUseCase;
+	public Assets $assets;
 
 	public function onCreate() {
 
@@ -43,14 +49,17 @@ class Plugin extends Components\Plugin {
 			"languages"
 		);
 
+		$this->assets        = new Assets($this);
 		$this->database      = new Database();
 		$this->post          = new Post( $this );
 		$this->term_taxonomy = new TermTaxonomy( $this );
 		$this->migrate       = new Migrate();
 		$this->redirects     = new Redirects( $this );
 		$this->settings      = new Settings( $this );
-		$this->meta_box      = new MetaBox( $this );
 		$this->ajax          = new Ajax( $this );
+
+		new REST($this);
+		new Gutenberg($this);
 
 		$this->findRedirectsUseCase = new FindRedirectUseCase($this);
 

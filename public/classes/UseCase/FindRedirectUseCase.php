@@ -9,7 +9,7 @@ use Palasthotel\PermalinkHistory\Utils;
 
 class FindRedirectUseCase extends Component {
 
-	public function of(string $contentType = Database::CONTENT_TYPE_POST) {
+	public function of(string $contentType) {
 		$results = $this->plugin->database->getHistoryOf($contentType);
 
 		$groups = [];
@@ -18,22 +18,31 @@ class FindRedirectUseCase extends Component {
 			$path = Utils::getUrlPath(get_permalink($result->content_id));
 			if (!isset($groups[$contentId])) {
 				$groups[$contentId] = [
-					"path" => $path,
+					"content_id" => $contentId,
+					"permalink" => $path,
 					"history" => [],
 				];
 			}
 			if ($path == $result->permalink) {
 				continue;
 			}
-			$groups[$contentId]['history'][] = $result->permalink;
+			$groups[$contentId]['history'][] = [
+				"id" => $result->id,
+				"permalink" => $result->permalink
+			];
 		}
-		return array_filter($groups,function($item){
+		return array_filter(array_values($groups),function($item){
 			return count($item['history']);
 		});
 	}
 
 	public function historyFor(int $id, string $contentType = Database::CONTENT_TYPE_POST): array {
-		return $this->plugin->database->getHistoryFor($id, $contentType);
+		return array_map(function ($item) {
+			$array = (array)$item;
+			unset($array['content_type']);
+			unset($array['content_id']);
+			return $array;
+		},$this->plugin->database->getHistoryFor($id, $contentType));
 	}
 
 	public function find(string $requestPath): ?string {
