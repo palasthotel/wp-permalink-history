@@ -2,13 +2,10 @@
 
 namespace Palasthotel\PermalinkHistory;
 
-class Ajax {
+use Palasthotel\PermalinkHistory\Components\Component;
 
-    public Plugin $plugin;
-
-	public function __construct(Plugin $plugin) {
-		$this->plugin = $plugin;
-
+class Ajax extends Component {
+	public function onCreate():void {
 		add_action("wp_ajax_permalink_history", [$this, 'ajax']);
 		add_action("wp_ajax_nopriv_permalink_history", [$this, 'ajax']);
 	}

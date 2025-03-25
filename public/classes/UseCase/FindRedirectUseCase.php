@@ -2,17 +2,12 @@
 
 namespace Palasthotel\PermalinkHistory\UseCase;
 
+use Palasthotel\PermalinkHistory\Components\Component;
 use Palasthotel\PermalinkHistory\Database;
 use Palasthotel\PermalinkHistory\Plugin;
 use Palasthotel\PermalinkHistory\Utils;
 
-class FindRedirectUseCase {
-
-	public Plugin $plugin;
-
-	public function __construct(Plugin $plugin) {
-		$this->plugin = $plugin;
-	}
+class FindRedirectUseCase extends Component {
 
 	public function of(string $contentType = Database::CONTENT_TYPE_POST) {
 		$results = $this->plugin->database->getHistoryOf($contentType);

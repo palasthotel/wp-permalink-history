@@ -8,12 +8,11 @@
 
 namespace Palasthotel\PermalinkHistory;
 
-class Post {
+use Palasthotel\PermalinkHistory\Components\Component;
 
-	public Plugin $plugin;
+class Post extends Component {
 
-	public function __construct(Plugin $plugin) {
-		$this->plugin = $plugin;
+	public function onCreate(): void {
 		add_action('save_post', array($this, 'on_save'), 1, 2);
 		add_action('get_header', array($this, 'save_history'));
 		add_action('deleted_post', array($this, 'on_deleted'));

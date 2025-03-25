@@ -8,12 +8,11 @@
 
 namespace Palasthotel\PermalinkHistory;
 
-class MetaBox {
+use Palasthotel\PermalinkHistory\Components\Component;
 
-    public Plugin $plugin;
+class MetaBox extends Component {
 
-	public function __construct(Plugin $plugin) {
-		$this->plugin = $plugin;
+	public function onCreate():void {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 10, 2 );
 	}
 	public function add_meta_boxes(){

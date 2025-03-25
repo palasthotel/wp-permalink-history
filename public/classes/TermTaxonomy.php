@@ -8,11 +8,11 @@
 
 namespace Palasthotel\PermalinkHistory;
 
-class TermTaxonomy {
+use Palasthotel\PermalinkHistory\Components\Component;
 
-	public Plugin $plugin;
-	public function __construct( Plugin $plugin ) {
-		$this->plugin = $plugin;
+class TermTaxonomy extends Component {
+
+	public function onCreate( ):void {
 		// TODO: delete history on delete
 		add_action( 'edit_terms', array( $this, 'edit_terms' ), 10, 3 );
 		add_action( 'get_header', array( $this, 'get_header' ) );

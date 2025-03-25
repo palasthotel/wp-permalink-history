@@ -8,15 +8,15 @@
 
 namespace Palasthotel\PermalinkHistory;
 
-class Redirects {
+use Palasthotel\PermalinkHistory\Components\Component;
+
+class Redirects extends Component {
 
 	const ACTION = "permalink_history_map";
 
-	public Plugin $plugin;
     public string $ajaxurl;
 
-	public function __construct( Plugin $plugin ) {
-		$this->plugin  = $plugin;
+	public function onCreate():void {
 		$this->ajaxurl = admin_url("/admin-ajax.php?action=".self::ACTION);
 
 		add_action( 'template_redirect', array( $this, 'on_404' ), 99 );

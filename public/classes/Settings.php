@@ -8,12 +8,11 @@
 
 namespace Palasthotel\PermalinkHistory;
 
-class Settings {
+use Palasthotel\PermalinkHistory\Components\Component;
 
-	public Plugin $plugin;
+class Settings extends Component {
 
-	public function __construct(Plugin $plugin) {
-		$this->plugin = $plugin;
+	public function onCreate():void {
 		add_action('admin_init', array($this,'custom_permalink_settings'));
 	}
 
