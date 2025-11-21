@@ -4,7 +4,7 @@ import {CheckboxControl} from "@wordpress/components";
 
 export default function PermalinkHistoryPanel() {
 	const [history, setHistory] = useHistory();
-	console.log('history', history);
+
 	if (history.length === 0) {
 		return <PluginDocumentSettingPanel
 			name="permalink-history"
