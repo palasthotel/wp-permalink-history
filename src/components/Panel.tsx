@@ -1,9 +1,16 @@
-import { PluginDocumentSettingPanel } from '@wordpress/editor';
+import {PluginDocumentSettingPanel} from '@wordpress/editor';
 import useHistory from "../hooks/useHistory";
 import {CheckboxControl} from "@wordpress/components";
 
-export default function PermalinkHistoryPanel(){
+export default function PermalinkHistoryPanel() {
 	const [history, setHistory] = useHistory();
+	console.log('history', history);
+	if (history.length === 0) {
+		return <PluginDocumentSettingPanel
+			name="permalink-history"
+			title="Permalink History"
+		><p>No permalink history available for this content.</p></PluginDocumentSettingPanel>;
+	}
 	return (
 		<PluginDocumentSettingPanel
 			name="permalink-history"
@@ -16,11 +23,11 @@ export default function PermalinkHistoryPanel(){
 						key={item.id}
 						label={item.permalink}
 						checked={item.remove != "true"}
-						onChange={()=>{
+						onChange={() => {
 							setHistory(history.map(it => {
 								const copy = {...it}
-								if(it.id == item.id){
-									if(item.remove == "true"){
+								if (it.id == item.id) {
+									if (item.remove == "true") {
 										delete copy.remove;
 									} else {
 										copy.remove = "true"
@@ -32,7 +39,8 @@ export default function PermalinkHistoryPanel(){
 					/>
 				)
 			})}
-			<p className="description" style={{marginTop: 22}}>Unchecked items will be permanently deleted after saving.</p>
+			<p className="description" style={{marginTop: 22}}>Unchecked items will be permanently deleted after
+				saving.</p>
 		</PluginDocumentSettingPanel>
 	)
 }
