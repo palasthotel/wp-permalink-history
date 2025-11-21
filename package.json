@@ -1,6 +1,6 @@
 {
 	"name": "@palasthotel/permalink-history",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"license": "MIT",
 	"scripts": {
 		"wp-env": "wp-env",
@@ -12,27 +12,28 @@
 	},
 	"prettier": "@wordpress/prettier-config",
 	"devDependencies": {
-		"@types/wordpress__block-editor": "^11.5.16",
+		"@types/wordpress__block-editor": "^14.21.2",
 		"@types/wordpress__blocks": "^12.5.17",
 		"@types/wordpress__edit-post": "^8.4.2",
-		"@wordpress/block-editor": "^14.15.0",
+		"@wordpress/block-editor": "^15.8.0",
 		"@wordpress/components": "^29.6.0",
-		"@wordpress/core-data": "^7.20.0",
-		"@wordpress/data": "^10.20.0",
-		"@wordpress/edit-post": "^8.20.0",
-		"@wordpress/element": "^6.20.0",
-		"@wordpress/env": "^10.20.0",
-		"@wordpress/i18n": "^5.20.0",
-		"@wordpress/plugins": "^7.20.0",
-		"@wordpress/prettier-config": "^4.20.0",
-		"@wordpress/scripts": "^30.13.0",
+		"@wordpress/core-data": "^7.35.0",
+		"@wordpress/data": "^10.35.0",
+		"@wordpress/edit-post": "^8.35.0",
+		"@wordpress/element": "^6.35.0",
+		"@wordpress/env": "^10.35.0",
+		"@wordpress/i18n": "^6.8.0",
+		"@wordpress/plugins": "^7.35.0",
+		"@wordpress/prettier-config": "^4.35.0",
+		"@wordpress/scripts": "^31.0.0",
 		"prettier": "^3.5.3"
 	},
 	"engines": {
 		"node": ">=22",
-		"pnpm": ">=10"
+		"npm": ">=10"
 	},
 	"volta": {
-		"node": "22.14.0"
+		"node": "22.14.0",
+		"npm": "10.3.0"
 	}
 }
