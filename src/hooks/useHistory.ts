@@ -15,31 +15,26 @@ type EntityPropPermalinkHistory = [
 export default function useHistory() {
 
 	const postType = useSelect(
-		// @ts-expect-error types are not available
+		// @ts-expect-error types are nicht verfügbar
 		(select) => select('core/editor').getCurrentPostType(),
 		[]
-	) as string;
-
-	if (!postType) {
-		return [[], () => {}] as [
-			PermalinkHistory,
-			(history: PermalinkHistory) => void
-		];
-	}
+	) as string | undefined;
 
 	const postTypeObject = useSelect(
-		// @ts-expect-error types are not available
-		(select) => (postType ? select("core").getPostType(postType) : null),
+		// @ts-expect-error types sind nicht verfügbar
+		(select) => (postType ? select('core').getPostType(postType) : null),
 		[postType]
 	);
 
-	if (!postTypeObject || !postTypeObject.viewable) {
-		return [[], () => {}] as [
-			PermalinkHistory,
-			(history: PermalinkHistory) => void
-		];
+	const [history, setHistory] = (useEntityProp(
+		'postType',
+		postType || 'post',
+		'permalink_history'
+	) as unknown) as EntityPropPermalinkHistory;
+
+	if (!postType || !postTypeObject?.viewable) {
+		return [[], () => {}] as EntityPropPermalinkHistory;
 	}
 
-	// @ts-expect-error types are not available
-	return useEntityProp('postType', postType, 'permalink_history') as EntityPropPermalinkHistory;
+	return [history, setHistory];
 }
