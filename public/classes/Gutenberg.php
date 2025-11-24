@@ -17,15 +17,9 @@ class Gutenberg extends Component {
 			Plugin::HANDLE_SCRIPT_GUTENBERG,
 			"dist/gutenberg.ts.js",
 		);
-		$this->plugin->assets->registerStyle(
-			Plugin::HANDLE_STYLE_GUTENBERG,
-			"dist/gutenberg.ts.css",
-		);
 	}
 
 	public function enqueue_block_editor_assets(): void {
 		wp_enqueue_script(Plugin::HANDLE_SCRIPT_GUTENBERG);
-		wp_enqueue_style(Plugin::HANDLE_STYLE_GUTENBERG);
 	}
-
 }
