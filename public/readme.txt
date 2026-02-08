@@ -1,10 +1,10 @@
 === Permalink History ===
-Contributors: edwardbock, palasthotel, lucasregalar
+Contributors: edwardbock, palasthotel, lucasregalar, janame
 Donate link: https://palasthotel.de/
 Tags: seo, permalink, backup, protocol, history
 Requires at least: 5.0
 Tested up to: 6.8.3
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -28,7 +28,7 @@ This plugin tries to save all changes of permalinks in your system. When someone
 
 = Does this work with changes made before plugin installation? =
 
-Nobe! You need to first install this plugin to start saving the history.
+Nope! You need to first install this plugin to start saving the history.
 
 = Does this effect my site performance? =
 
@@ -40,6 +40,9 @@ But to be honest. Perhaps it could get an issue, yes. Therefore you export a red
 == Screenshots ==
 
 == Changelog ==
+
+= 2.0.3 =
+* Fix: Gutenberg error fix for old history entries
 
 = 2.0.2 =
 * Fix: no css error fix
