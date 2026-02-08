@@ -1,16 +1,13 @@
 import {useSelect} from "@wordpress/data";
 import {useEntityProp} from "@wordpress/core-data";
 
-type PermalinkHistory = {
+type PermalinkHistoryItem = {
 	id: number
 	permalink: string
 	remove?: "true"
-}[]
+}
 
-type EntityPropPermalinkHistory = [
-	PermalinkHistory,
-	(history: PermalinkHistory) => void
-]
+type PermalinkHistory = PermalinkHistoryItem[];
 
 export default function useHistory() {
 
@@ -26,15 +23,18 @@ export default function useHistory() {
 		[postType]
 	);
 
-	const [history, setHistory] = (useEntityProp(
+	const [history, setHistory] = useEntityProp(
 		'postType',
 		postType || 'post',
 		'permalink_history'
-	) as unknown) as EntityPropPermalinkHistory;
+	);
 
 	if (!postType || !postTypeObject?.viewable) {
-		return [[], () => {}] as EntityPropPermalinkHistory;
+		return [[], (history: PermalinkHistory) => {}] as const;
 	}
 
-	return [history, setHistory];
+	return [
+		history as PermalinkHistory,
+		(history: PermalinkHistory) => setHistory(history)
+	] as const;
 }
