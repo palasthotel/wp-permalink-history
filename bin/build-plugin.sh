@@ -6,7 +6,7 @@ BUILD_PATH="${PROJECT_PATH}/build"
 DEST_PATH="$BUILD_PATH/$PLUGIN_SLUG"
 
 echo "Bundling JavaScript..."
-npm install
+npm ci
 npm build
 
 echo "Generating build directory..."

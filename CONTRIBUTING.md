@@ -1,8 +1,8 @@
-# Contributing to Permaling History
+# Contributing to Permalink History
 
 ## Code of Conduct
 
-The projext has a [Code of Conduct](./CODE_OF_CONDUCT.md) to which all contributors must adhere.
+The project has a [Code of Conduct](./CODE_OF_CONDUCT.md) to which all contributors must adhere.
 
 ## Overview
 

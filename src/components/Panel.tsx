@@ -1,11 +1,15 @@
+import React from 'react';
 import {PluginDocumentSettingPanel} from '@wordpress/editor';
-import useHistory from "../hooks/useHistory";
-import {CheckboxControl} from "@wordpress/components";
+import useHistory from '../hooks/useHistory';
+import {CheckboxControl} from '@wordpress/components';
 
 export default function PermalinkHistoryPanel() {
-	const [history, setHistory] = useHistory();
+	const [ history, setHistory ] = useHistory();
 
-	if (history.length === 0) {
+	// legacy support: if history is not an array but an object with numeric keys, convert it to an array
+	const historyArray = Array.isArray( history ) ? history : Object.values( history );
+
+	if ( 0 === historyArray.length ) {
 		return <PluginDocumentSettingPanel
 			name="permalink-history"
 			title="Permalink History"
@@ -17,30 +21,30 @@ export default function PermalinkHistoryPanel() {
 			title="Permalink History"
 		>
 			<p>These links were previously used for this content:</p>
-			{history.map(item => {
+			{historyArray.map( item => {
 				return (
 					<CheckboxControl
 						key={item.id}
 						label={item.permalink}
-						checked={item.remove != "true"}
+						checked={'true' != item.remove}
 						onChange={() => {
-							setHistory(history.map(it => {
-								const copy = {...it}
-								if (it.id == item.id) {
-									if (item.remove == "true") {
+							setHistory( historyArray.map( it => {
+								const copy = {...it};
+								if ( it.id == item.id ) {
+									if ( 'true' == item.remove ) {
 										delete copy.remove;
 									} else {
-										copy.remove = "true"
+										copy.remove = 'true';
 									}
 								}
 								return copy;
-							}))
+							}) );
 						}}
 					/>
-				)
+				);
 			})}
 			<p className="description" style={{marginTop: 22}}>Unchecked items will be permanently deleted after
 				saving.</p>
 		</PluginDocumentSettingPanel>
-	)
+	);
 }
