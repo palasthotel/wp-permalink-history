@@ -69,7 +69,9 @@ jobs:
           tools: composer, wp-cli
 
       - name: Setup node
-        uses: ./.github/actions/setup-node-action
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
 
       - name: Install Node modules
         run: npm ci
