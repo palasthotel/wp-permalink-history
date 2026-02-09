@@ -1,0 +1,31 @@
+---
+version: 2
+
+updates:
+  - package-ecosystem: "npm"
+    assignees:
+      - "hans-aboutsource"
+      - "robbl-as"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    cooldown:
+      default-days: 7
+    directory: "/src/"
+    open-pull-requests-limit: 10
+    schedule:
+      interval: "daily"
+      time: "07:00"
+      timezone: "Europe/Berlin"
+
+  - package-ecosystem: "github-actions"
+    assignees:
+      - "janame"
+    cooldown:
+      default-days: 7
+    directory: "/"
+    open-pull-requests-limit: 10
+    schedule:
+      interval: "daily"
+      time: "07:00"
+      timezone: "Europe/Berlin"

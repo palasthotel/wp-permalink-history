@@ -1,0 +1,153 @@
+name: Build and release to WordPress.org
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    uses: ./.github/workflows/shared.build.yml
+
+  pack-and-release:
+    name: Build and deploy to WordPress.org
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name }}
+    steps:
+      - name: Notify on start
+        run: |
+          echo "Starting release process for tag ${RELEASE_TAG}..."  
+          echo "This may take a few minutes. Please wait."
+
+      - name: Normalize release tag
+        shell: bash
+        run: |
+          VERSION=${RELEASE_TAG#v}
+          VERSION=${VERSION#V}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Show release version
+        run: echo "RELEASE_VERSION=${VERSION}"
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Check version number in package.json
+        run: |
+          if [ "$(jq -r '.version' src/package.json)" != "$VERSION" ]; then
+            echo "Version number in package.json does not match the release version."
+            exit 1
+          fi
+
+      - name: Check version number in plugin file
+        run: |
+          if ! grep -q "Version: $VERSION" public/Plugin.php; then
+            echo "Version number in Plugin.php does not match the release version."
+            exit 1
+          fi
+
+      - name: Check version number in readme.txt
+        run: |
+          if ! grep -q "Stable tag: ${RELEASE_TAG}" public/readme.txt; then
+            echo "Stable tag number in readme.txt does not match the release version."
+            exit 1
+          fi
+
+      - name: Install SVN
+        run: |
+          sudo apt-get update  
+          sudo apt-get install -y subversion  
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer, wp-cli
+
+      - name: Setup node
+        uses: ./.github/actions/setup-node-action
+
+      - name: Install Node modules
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      # This step generates a permalink-plugin.zip file in the root of the repository, we should delete it after uploading it as an artifact to avoid confusion.
+      - name: Pack plugin
+        run: npm run pack
+
+      - name: Create GH Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${RELEASE_TAG}
+          release_name: Release ${VERSION}
+          body: |
+            ## Changelog
+
+            ${{ github.event.release.body }}
+          draft: false
+          prerelease: false
+
+      - name: Upload release asset
+        id: upload_release_asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./permalink-plugin.zip
+          asset_name: permalink-plugin.zip
+          asset_content_type: application/zip
+
+      - name: Checkout WordPress SVN repository
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        run: |
+          svn checkout "https://plugins.svn.wordpress.org/permalink-history" \  
+          --username "$SVN_USERNAME" \  
+          --password "$SVN_PASSWORD" \  
+          --no-auth-cache \  
+          --non-interactive \  
+          --trust-server-cert \  
+          svn
+
+      - name: Prepare SVN
+        working-directory: svn
+        run: |
+          VERSION=${RELEASE_TAG}
+          rm -rf trunk/* tags/$VERSION
+          cp -r ../public trunk/
+          svn add trunk/* --force
+          mkdir -p tags/$VERSION
+          cp -r trunk/* tags/$VERSION/
+          svn add tags/$VERSION --force
+          svn status | grep '^\!' | sed 's/! *//' | xargs -I% svn rm %@
+
+      - name: Commit to SVN
+        working-directory: svn
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        run: |
+          VERSION=${VERSION}  
+          svn commit -m "Release version $VERSION" \  
+          --username "$SVN_USERNAME" \  
+          --password "$SVN_PASSWORD" \  
+          --no-auth-cache \  
+          --non-interactive \  
+          --trust-server-cert  
+
+      - name: Notify on success
+        if: success()
+        run: |
+         echo "Plugin successfully deployed to WordPress.org and GitHub!"  
+         echo "Version ${RELEASE_TAG} is now live!"

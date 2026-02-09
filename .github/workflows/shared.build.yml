@@ -1,0 +1,21 @@
+name: build
+
+on:
+  workflow_call:
+
+jobs:
+  lint:
+    name: Build project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup node
+        uses: ./.github/actions/setup-node-action
+
+      - name: Install Node modules
+        run: npm ci
+
+      - name: Build
+        run: npm run build
