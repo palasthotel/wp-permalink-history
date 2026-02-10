@@ -59,6 +59,7 @@ jobs:
 
       # This step generates a permalink-plugin.zip file in the root of the repository, we should delete it after uploading it as an artifact to avoid confusion.
       - name: Pack plugin
+        id: pack_plugin
         run: npm run pack
 
       #- name: Create GH Release
@@ -89,21 +90,14 @@ jobs:
           asset_content_type: application/zip
 
       - name: Cleanup packaged artifact
-        if: success()
+        if: always()
         run: rm -f ./permalink-history.zip
 
       - name: Checkout WordPress SVN repository
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-        run: |
-          svn checkout "https://plugins.svn.wordpress.org/permalink-history" \  
-          --username "$SVN_USERNAME" \  
-          --password "$SVN_PASSWORD" \  
-          --no-auth-cache \  
-          --non-interactive \  
-          --trust-server-cert \  
-          svn
+        run: svn checkout "https://plugins.svn.wordpress.org/permalink-history" svn --username "$SVN_USERNAME" --password "$SVN_PASSWORD" --no-auth-cache --non-interactive --trust-server-cert
 
       - name: Prepare SVN
         working-directory: svn
