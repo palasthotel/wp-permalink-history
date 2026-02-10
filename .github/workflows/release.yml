@@ -29,37 +29,15 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Show release version
-        run: echo "RELEASE_VERSION=${VERSION}"
+        run: echo "VERSION=${VERSION}"
 
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
-
-      - name: Check version number in package.json
-        working-directory: src
+      - name: Check version numbers
         run: |
-          if [ "$(jq -r '.version' package.json)" != "$VERSION" ]; then
-            echo "Version number in package.json does not match the release version."
-            exit 1
-          fi
-
-      - name: Check version number in plugin file
-        working-directory: public
-        run: |
-          if ! grep -q "Version: $VERSION" Plugin.php; then
-            echo "Version number in Plugin.php does not match the release version."
-            exit 1
-          fi
-
-      - name: Check version number in readme.txt
-        working-directory: public
-        run: |
-          if ! grep -q "Stable tag: $VERSION" readme.txt; then
-            echo "Stable tag number in readme.txt does not match the release version."
-            exit 1
-          fi
+          chmod +x .github/workflows/scripts/version-checker.sh
+          ./.github/workflows/scripts/version-checker.sh
 
       - name: Install SVN
         run: |
