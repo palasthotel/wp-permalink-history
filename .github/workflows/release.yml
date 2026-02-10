@@ -81,6 +81,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
         with:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: ./permalink-history.zip
