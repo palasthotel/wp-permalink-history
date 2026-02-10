@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Permalink History
  * Description: Saves a history of post and page permalinks and adds redirects for old permalinks.
- * Version: 2.0.2
+ * Version: 2.0.3
  * Author: PALASTHOTEL (by Edward Bock, Lucas Regalar, Jana Eggebrecht)
  * Author URI: https://palasthotel.de
  * Text Domain: permalink-history
