@@ -113,7 +113,10 @@ jobs:
           cp -r ../public/* trunk/
           cp -r trunk/* tags/$VERSION/
           svn add --force . || true
-          svn status | grep '^!' | awk '{print $2}' | xargs svn rm
+          svn status | awk '/^!/{print $2}' | while IFS= read -r file; do
+            [ -n "$file" ] || continue
+            svn rm "$file" || true
+          done
           svn status
           svn commit -m "Release version $VERSION" --username "$SVN_USERNAME" --password "$SVN_PASSWORD" --no-auth-cache --non-interactive --trust-server-cert
 
