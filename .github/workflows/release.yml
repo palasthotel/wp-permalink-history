@@ -61,20 +61,20 @@ jobs:
       - name: Pack plugin
         run: npm run pack
 
-      - name: Create GH Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${RELEASE_TAG}
-          release_name: Release ${VERSION}
-          body: |
+      #- name: Create GH Release
+      #  id: create_release
+      #  uses: actions/create-release@v1
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  with:
+      #    tag_name: ${{ env.RELEASE_TAG }}
+      #    release_name: ${{ env.VERSION }}
+      #    body: |
             ## Changelog
 
-            ${{ github.event.release.body }}
-          draft: false
-          prerelease: false
+      #      ${{ github.event.release.body }}
+      #    draft: false
+      #    prerelease: false
 
       - name: Upload release asset
         id: upload_release_asset
