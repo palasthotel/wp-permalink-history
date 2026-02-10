@@ -99,31 +99,27 @@ jobs:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
         run: svn checkout "https://plugins.svn.wordpress.org/permalink-history" svn --username "$SVN_USERNAME" --password "$SVN_PASSWORD" --no-auth-cache --non-interactive --trust-server-cert
 
-      - name: Prepare SVN
-        working-directory: svn
-        run: |
-          VERSION=${RELEASE_TAG}
-          rm -rf trunk/* tags/$VERSION
-          cp -r ../public trunk/
-          svn add trunk/* --force
-          mkdir -p tags/$VERSION
-          cp -r trunk/* tags/$VERSION/
-          svn add tags/$VERSION --force
-          svn status | grep '^\!' | sed 's/! *//' | xargs -I% svn rm %@
-
-      - name: Commit to SVN
-        working-directory: svn
+      - name: Prepare SVN & commit
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
         run: |
-          VERSION=${VERSION}  
-          svn commit -m "Release version $VERSION" \  
-          --username "$SVN_USERNAME" \  
-          --password "$SVN_PASSWORD" \  
-          --no-auth-cache \  
-          --non-interactive \  
-          --trust-server-cert  
+          ls -la
+          cd svn
+          ls -la
+          VERSION=${VERSION}
+          rm -rf trunk/* tags/$VERSION || true
+          mkdir -p trunk tags/$VERSION
+          cp -r ../public/* trunk/
+          cp -r trunk/* tags/$VERSION/
+          svn add --force . || true
+          svn status | grep '^!' | awk '{print $2}' | xargs svn rm
+          svn status
+          svn commit -m "Release version $VERSION" --username "$SVN_USERNAME" --password "$SVN_PASSWORD" --no-auth-cache --non-interactive --trust-server-cert
+
+      - name: Cleanup SVN checkout
+        if: always()
+        run: rm -rf svn
 
       - name: Notify on success
         if: success()
