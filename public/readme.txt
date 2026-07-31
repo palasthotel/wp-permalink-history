@@ -5,7 +5,7 @@ Tags: seo, permalink, backup, protocol, history
 Requires at least: 6.6
 Tested up to: 7.0.2
 Requires PHP: 8.0
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
 
@@ -41,6 +41,16 @@ But to be honest. Perhaps it could get an issue, yes. Therefore you export a red
 == Screenshots ==
 
 == Changelog ==
+
+= 2.0.4 =
+**Bug Fixes**
+* bind the LIKE term and LIMIT values in database queries (975aa76)
+* block direct file access and use a literal text domain (05b34e5)
+* change minimum version to 6.6 (eee78db)
+* declare the PHP 8.0 requirement the code already has (08e79e1)
+* only expose publicly visible content through the public history endpoints (9660279)
+* require manage_options and a nonce for the redirect map (026990f)
+* verify history rows belong to the post before deleting them (4cbce86)
 
 = 2.0.3 =
 * Fix: Gutenberg error fix for old history entries
