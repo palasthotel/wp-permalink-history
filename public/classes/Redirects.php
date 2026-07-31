@@ -8,6 +8,8 @@
 
 namespace Palasthotel\PermalinkHistory;
 
+defined( 'ABSPATH' ) || exit;
+
 use Palasthotel\PermalinkHistory\Components\Component;
 
 class Redirects extends Component {
@@ -17,7 +19,10 @@ class Redirects extends Component {
     public string $ajaxurl;
 
 	public function onCreate():void {
-		$this->ajaxurl = admin_url("/admin-ajax.php?action=".self::ACTION);
+		$this->ajaxurl = wp_nonce_url(
+			admin_url( "admin-ajax.php?action=" . self::ACTION ),
+			self::ACTION
+		);
 
 		add_action( 'template_redirect', array( $this, 'on_404' ), 99 );
 		add_action( 'wp_ajax_' . self::ACTION, array( $this, 'ajax_redirect_map' ) );
@@ -41,8 +46,20 @@ class Redirects extends Component {
 
 	/**
 	 * ajax endpoint
+	 *
+	 * The map lists every historical URL of the site, so it is limited to users
+	 * who may see the permalink settings it is linked from.
 	 */
 	public function ajax_redirect_map() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die(
+				esc_html__( 'You are not allowed to generate the redirect map.', 'permalink-history' ),
+				'',
+				array( 'response' => 403 )
+			);
+		}
+		check_admin_referer( self::ACTION );
+
 		$this->renderRedirectMap();
 		exit;
 	}
@@ -61,7 +78,7 @@ class Redirects extends Component {
 			if ( ! $first ) {
 				echo "<br/>";
 			}
-			echo $item->permalink . " " . $permalink;
+			echo esc_html( $item->permalink ) . " " . esc_html( $permalink );
 			$first = false;
 		}
 	}

@@ -8,6 +8,8 @@
 
 namespace Palasthotel\PermalinkHistory;
 
+defined( 'ABSPATH' ) || exit;
+
 use Palasthotel\PermalinkHistory\Components\Component;
 
 class Settings extends Component {
@@ -22,7 +24,9 @@ class Settings extends Component {
 	public function custom_permalink_settings() {
 		add_settings_section(
 			'permalink-history-settings', // ID
-			__('Permalink History', Plugin::DOMAIN), // Section title
+			// A literal text domain is required, otherwise the string is not
+			// picked up when the translation template is generated.
+			__( 'Permalink History', 'permalink-history' ), // Section title
 			array($this, 'render'), // Callback for your function
 			'permalink' // Location (Settings > Permalinks)
 		);
@@ -33,9 +37,10 @@ class Settings extends Component {
 	 */
 	public function render(){
 		// TODO: make this async call with paged redirects response and render it into a textarea
-		$url = $this->plugin->redirects->ajaxurl;
-		echo "<p><a href='$url' target='_blank'>";
-		_e("Generate redirects map (this can take a while)...", Plugin::DOMAIN);
-		echo "</a></p>";
+		printf(
+			'<p><a href="%1$s" target="_blank" rel="noopener">%2$s</a></p>',
+			esc_url( $this->plugin->redirects->ajaxurl ),
+			esc_html__( 'Generate redirects map (this can take a while)...', 'permalink-history' )
+		);
 	}
 }
