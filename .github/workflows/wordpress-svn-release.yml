@@ -2,26 +2,29 @@
 name: Build and release to WordPress.org
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
 
 jobs:
   build-and-release:
     name: Build and deploy to WordPress.org
     runs-on: ubuntu-latest
     env:
-      RELEASE_TAG: ${{ github.event.release.tag_name }}
+      RELEASE_TAG: ${{ github.ref_name }}
     steps:
       - name: Notify on start
         run: |
-          echo "Starting release process for tag $RELEASE_TAG..."  
-          echo "This may take a few minutes. Please wait."
+          echo "🤖 Starting release process for tag $RELEASE_TAG…"
+          echo "🤖 This may take a few minutes. Please wait."
 
       - name: Normalize release tag
         shell: bash
         run: |
           VERSION=${RELEASE_TAG#v}
-          VERSION=${VERSION#V}
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Show release version
@@ -31,19 +34,17 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Check version numbers
-        run: |
-          chmod +x .github/workflows/scripts/version-checker.sh
-          ./.github/workflows/scripts/version-checker.sh
+        run: bash bin/version-checker.sh
 
       - name: Install SVN
         run: |
-          sudo apt-get update  
-          sudo apt-get install -y subversion  
+          sudo apt-get update
+          sudo apt-get install -y subversion
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: "8.2"
           tools: composer, wp-cli
 
       - name: Setup node
@@ -57,37 +58,17 @@ jobs:
       - name: Build
         run: npm run build
 
-      # This step generates a permalink-plugin.zip file in the root of the repository, we should delete it after uploading it as an artifact to avoid confusion.
       - name: Pack plugin
         id: pack_plugin
         run: npm run pack
 
-      #- name: Create GH Release
-      #  id: create_release
-      #  uses: actions/create-release@v1
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #  with:
-      #    tag_name: ${{ env.RELEASE_TAG }}
-      #    release_name: ${{ env.VERSION }}
-      #    body: |
-            ## Changelog
-
-      #      ${{ github.event.release.body }}
-      #    draft: false
-      #    prerelease: false
-
       - name: Upload release asset
-        id: upload_release_asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
         continue-on-error: true
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./permalink-history.zip
-          asset_name: permalink-history.zip
-          asset_content_type: application/zip
+          files: ./permalink-history.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cleanup packaged artifact
         if: always()
@@ -97,7 +78,7 @@ jobs:
         env:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-        run: svn checkout "https://plugins.svn.wordpress.org/permalink-history" svn --username "$SVN_USERNAME" --password "$SVN_PASSWORD" --no-auth-cache --non-interactive --trust-server-cert
+        run: svn checkout "${{ vars.SVN_REPO_URL }}" svn --username "$SVN_USERNAME" --password "$SVN_PASSWORD" --no-auth-cache --non-interactive --trust-server-cert
 
       - name: Prepare SVN & commit
         env:
@@ -127,5 +108,4 @@ jobs:
       - name: Notify on success
         if: success()
         run: |
-         echo "Plugin successfully deployed to WordPress.org and GitHub!"  
-         echo "Version ${RELEASE_TAG} is now live!"
+          echo "🤖 Plugin with Version ${RELEASE_TAG} successfully deployed to WordPress.org! 🚀"

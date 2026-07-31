@@ -210,6 +210,34 @@ There's always a trade-off between various attributes, in particular,
 don't make performance so fast that the software is hard to maintain.
 Instead, work to get "reasonable" performance in typical cases.
 
+## Commit messages and releases
+
+Releases and the changelog are generated from the commit history by
+[release-please](https://github.com/googleapis/release-please), so commit
+messages follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+<type>[optional scope][!]: <description>
+```
+
+| Type | Effect on the version | Appears in changelog |
+|---|---|---|
+| `fix:` | patch (2.0.3 → 2.0.4) | yes, "Bug Fixes" |
+| `feat:` | minor (2.0.3 → 2.1.0) | yes, "Features" |
+| `feat!:` or a `BREAKING CHANGE:` footer | major (2.0.3 → 3.0.0) | yes, highlighted |
+| `docs:`, `refactor:`, `chore:`, `deps:`, `ci:`, `style:`, `test:` | none | no |
+
+A pull request that should trigger a release needs at least one `fix:` or
+`feat:` commit. When squash-merging, the squash commit message itself has to be
+a conventional commit — that is the message release-please reads.
+
+Never edit version numbers by hand. `package.json`, `CHANGELOG.md`,
+`public/Plugin.php` and the `Stable tag:` in `public/readme.txt` are all
+maintained by the release pipeline, which is documented in
+[.github/WORKFLOWS.md](./.github/WORKFLOWS.md). Content changes to
+`public/readme.txt` (description, FAQ, tested-up-to) are of course made by hand;
+just leave `Stable tag:` and the `== Changelog ==` entries alone.
+
 ## Reuse (supply chain)
 
 ### Requirements for reused components
