@@ -5,10 +5,7 @@ PROJECT_PATH=$(pwd)
 BUILD_PATH="${PROJECT_PATH}/build"
 DEST_PATH="$BUILD_PATH/$PLUGIN_SLUG"
 
-echo "Bundling JavaScript..."
-npm ci
-npm build
-
+# Expects public/dist to be built already: `npm run build` before `npm run pack`.
 echo "Generating build directory..."
 rm -rf "$BUILD_PATH"
 mkdir -p "$DEST_PATH"
