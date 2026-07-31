@@ -16,6 +16,27 @@ updates:
       interval: "daily"
       time: "07:00"
       timezone: "Europe/Berlin"
+    # A dependency lands in the first group it matches, so order matters.
+    # Major updates match no group on purpose and keep arriving as single PRs.
+    groups:
+      wordpress:
+        patterns:
+          - "@wordpress/*"
+          - "@types/wordpress__*"
+        update-types:
+          - "minor"
+          - "patch"
+      dev-dependencies:
+        dependency-type: "development"
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      npm-security:
+        applies-to: "security-updates"
+        patterns:
+          - "*"
 
   - package-ecosystem: "github-actions"
     assignees:
@@ -28,3 +49,7 @@ updates:
       interval: "daily"
       time: "07:00"
       timezone: "Europe/Berlin"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
