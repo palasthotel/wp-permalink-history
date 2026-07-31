@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * Plugin Name:       Permalink History - DEV
  * Description:       Dev inc file
@@ -11,7 +9,6 @@
  * Author URI:        http://www.palasthotel.de
  * Domain Path:       /plugin/languages
  */
-
 
 use Palasthotel\PermalinkHistory\Plugin;
 
