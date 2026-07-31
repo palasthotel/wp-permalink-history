@@ -3,7 +3,8 @@ Contributors: edwardbock, palasthotel, lucasregalar, janaeggebrecht
 Donate link: https://palasthotel.de/
 Tags: seo, permalink, backup, protocol, history
 Requires at least: 5.0
-Tested up to: 6.8.3
+Tested up to: 7.0.2
+Requires PHP: 8.0
 Stable tag: 2.0.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl
