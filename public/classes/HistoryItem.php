@@ -2,6 +2,8 @@
 
 namespace Palasthotel\PermalinkHistory;
 
+defined( 'ABSPATH' ) || exit;
+
 class HistoryItem {
 
 	private function __construct(public int $content_id, public string $content_type, public string $permalink, public ?int $id = null) {

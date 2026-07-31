@@ -8,6 +8,8 @@
 
 namespace Palasthotel\PermalinkHistory;
 
+defined( 'ABSPATH' ) || exit;
+
 class Database extends Components\Database {
 
 	const CONTENT_TYPE_POST = "post";
@@ -96,9 +98,12 @@ class Database extends Components\Database {
 	}
 
 	public function findId(string $path, string $content_type): int {
-		$escaped = $this->wpdb->esc_like($path);
+		// The LIKE term has to be a bound argument. Interpolating it into the
+		// query leaves quotes unescaped (esc_like only handles _ % \) and any
+		// path starting with s, d or f would form a bogus placeholder.
 		$query = $this->wpdb->prepare(
-			"SELECT content_id FROM $this->tablename WHERE permalink LIKE '%$escaped%' AND content_type = %s ORDER BY id DESC LIMIT 1",
+			"SELECT content_id FROM $this->tablename WHERE permalink LIKE %s AND content_type = %s ORDER BY id DESC LIMIT 1",
+			'%' . $this->wpdb->esc_like( $path ) . '%',
 			$content_type
 		);
 		return intval($this->wpdb->get_var($query));
@@ -177,8 +182,10 @@ class Database extends Components\Database {
 			$wpdb->prepare(
 				"SELECT ID FROM $wpdb->posts WHERE post_status = 'publish' AND guid != '' AND post_name != ''
 				AND ID NOT IN ( SELECT DISTINCT content_id FROM $this->tablename WHERE content_type = %s )
-				LIMIT $offset, $limit",
-				self::CONTENT_TYPE_POST
+				LIMIT %d, %d",
+				self::CONTENT_TYPE_POST,
+				$offset,
+				$limit
 			)
 		);
 	}
@@ -201,8 +208,10 @@ class Database extends Components\Database {
 				WHERE tt.term_taxonomy_id NOT IN (
 				  SELECT DISTINCT content_id FROM $this->tablename WHERE content_type = %s
 				)
-				LIMIT $offset, $limit",
-				self::CONTENT_TYPE_TERM_TAXONOMY
+				LIMIT %d, %d",
+				self::CONTENT_TYPE_TERM_TAXONOMY,
+				$offset,
+				$limit
 			)
 		);
 	}

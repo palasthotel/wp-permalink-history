@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
 use Palasthotel\PermalinkHistory\Plugin;
 
 function permalink_history_plugin(): Plugin {

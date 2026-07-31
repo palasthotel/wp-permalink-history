@@ -2,6 +2,8 @@
 
 namespace Palasthotel\PermalinkHistory\Components;
 
+defined( 'ABSPATH' ) || exit;
+
 class Assets {
 
 	private Plugin $plugin;

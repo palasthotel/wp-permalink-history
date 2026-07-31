@@ -3,6 +3,8 @@
 
 namespace Palasthotel\PermalinkHistory;
 
+defined( 'ABSPATH' ) || exit;
+
 class WPCli {
 
 	/**

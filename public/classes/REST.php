@@ -2,6 +2,8 @@
 
 namespace Palasthotel\PermalinkHistory;
 
+defined( 'ABSPATH' ) || exit;
+
 use Palasthotel\PermalinkHistory\Components\Component;
 use WP_Error;
 use WP_REST_Request;
@@ -29,13 +31,31 @@ class REST extends Component {
 							return $item->permalink !== $permalink;
 						});
 					},
-					'update_callback' => function ($value) {
-						if(is_array($value)){
-							foreach ($value as $item){
-								if(isset($item["remove"]) && $item["remove"] == "true"){
-									$this->plugin->database->deleteById($item["id"]);
-								}
+					'update_callback' => function ($value, $post) {
+						if (!is_array($value) || !($post instanceof \WP_Post)) {
+							return;
+						}
+						foreach ($value as $item) {
+							if (!is_array($item) || !isset($item["id"]) || !is_numeric($item["id"])) {
+								continue;
 							}
+							if (!filter_var($item["remove"] ?? false, FILTER_VALIDATE_BOOLEAN)) {
+								continue;
+							}
+
+							// The row has to belong to the post being saved. Without this
+							// check, any user who may edit any post could delete the
+							// history of other content.
+							$row = $this->plugin->database->getById((int) $item["id"]);
+							if (
+								!($row instanceof HistoryItem)
+								|| (int) $row->content_id !== $post->ID
+								|| Database::CONTENT_TYPE_POST !== $row->content_type
+							) {
+								continue;
+							}
+
+							$this->plugin->database->deleteById((int) $item["id"]);
 						}
 					},
 				]
