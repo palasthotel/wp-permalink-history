@@ -8,6 +8,8 @@
 
 namespace Palasthotel\PermalinkHistory;
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * @property Plugin plugin
  */

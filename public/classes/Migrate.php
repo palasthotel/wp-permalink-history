@@ -2,6 +2,8 @@
 
 namespace Palasthotel\PermalinkHistory;
 
+defined( 'ABSPATH' ) || exit;
+
 class Migrate {
 
 	const PREFIX = "permalink_history:";

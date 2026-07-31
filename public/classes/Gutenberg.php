@@ -2,6 +2,8 @@
 
 namespace Palasthotel\PermalinkHistory;
 
+defined( 'ABSPATH' ) || exit;
+
 use Palasthotel\PermalinkHistory\Components\Component;
 
 class Gutenberg extends Component {
