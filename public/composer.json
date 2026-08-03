@@ -1,5 +1,6 @@
 {
 	"name": "palasthotel/permalink-history",
+	"license": "GPL-3.0-or-later",
 	"description": "Permalink history plugin",
 	"autoload": {
 		"psr-4": {

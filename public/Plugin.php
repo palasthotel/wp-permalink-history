@@ -11,6 +11,8 @@
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: permalink-history
  * Domain Path: /languages
+ *
+ * @copyright Copyright (c) 2025 Palasthotel
  */
 
 namespace Palasthotel\PermalinkHistory;

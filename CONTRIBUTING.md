@@ -114,10 +114,13 @@ It's not practical to fix old contributions in git, so if one is forgotten,
 do not try to fix them.  We presume that if someone sometimes used a DCO,
 a commit without a DCO is an accident and the DCO still applies.
 
-### License (MIT)
+### License (GPL-3.0-or-later)
 
-All (new) contributed source code must be released
-under the [MIT](./LICENSE).
+All (new) contributed source code must be released under the
+[GNU General Public License v3.0 or later](./LICENSE), the licence this plugin is
+distributed under. Contributions were accepted under the MIT licence until
+2026-08-03; the switch to GPL-3.0 keeps the source and the distributed plugin
+under the same terms, so a fork cannot be closed up.
 
 ### We are proactive
 

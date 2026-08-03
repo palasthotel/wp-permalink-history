@@ -1,7 +1,7 @@
 {
 	"name": "@palasthotel/permalink-history",
 	"version": "2.0.4",
-	"license": "MIT",
+	"license": "GPL-3.0-or-later",
 	"description": "A WordPress plugin to save the history of permalink changes for posts and pages.",
 	"author": "Palasthotel GmbH",
 	"repository": "git+https://github.com/palasthotel/wp-permalink-history.git",
