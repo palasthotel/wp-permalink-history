@@ -3,6 +3,9 @@ name: lint
 on:
   workflow_call:
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     name: ESLint & Stylelint
