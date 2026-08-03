@@ -97,6 +97,13 @@ jobs:
           # puts a symlink where it versions a regular file. rsync is unambiguous.
           rsync -rL ../public/ trunk/
           rsync -rL trunk/ tags/$VERSION/
+          # assets/ holds the media for the wordpress.org plugin page (icon,
+          # banner, screenshots). It is not part of the download, and the
+          # repository is the source of truth for it — hence --delete.
+          if [ -d ../assets ]; then
+            mkdir -p assets
+            rsync -rL --delete ../assets/ assets/
+          fi
           svn add --force . || true
           svn status | awk '/^!/{print $2}' | while IFS= read -r file; do
             [ -n "$file" ] || continue
