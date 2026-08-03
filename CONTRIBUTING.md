@@ -117,7 +117,7 @@ a commit without a DCO is an accident and the DCO still applies.
 ### License (MIT)
 
 All (new) contributed source code must be released
-under the [MIT](./LICENSE.txt).
+under the [MIT](./LICENSE).
 
 ### We are proactive
 

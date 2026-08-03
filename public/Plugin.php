@@ -3,9 +3,12 @@
  * Plugin Name: Permalink History
  * Description: Saves a history of post and page permalinks and adds redirects for old permalinks.
  * Version: 2.0.4
+ * Requires at least: 6.6
  * Requires PHP: 8.0
  * Author: PALASTHOTEL (Edward Bock, Lucas Regalar, Jana Eggebrecht)
  * Author URI: https://palasthotel.de
+ * License: GPL-3.0-or-later
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: permalink-history
  * Domain Path: /languages
  */
