@@ -91,8 +91,12 @@ jobs:
           VERSION=${VERSION}
           rm -rf trunk/* tags/$VERSION || true
           mkdir -p trunk tags/$VERSION
-          cp -r ../public/* trunk/
-          cp -r trunk/* tags/$VERSION/
+          # -L resolves symlinks into real files. There are none in public/ today,
+          # but cp behaves differently across platforms - GNU cp keeps symlinks
+          # while descending, BSD cp resolves them - and SVN refuses a commit that
+          # puts a symlink where it versions a regular file. rsync is unambiguous.
+          rsync -rL ../public/ trunk/
+          rsync -rL trunk/ tags/$VERSION/
           svn add --force . || true
           svn status | awk '/^!/{print $2}' | while IFS= read -r file; do
             [ -n "$file" ] || continue
