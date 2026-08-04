@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.5](https://github.com/palasthotel/wp-permalink-history/compare/v2.0.4...v2.0.5) (2026-08-04)
+
+
+### Bug Fixes
+
+* restore the site - the nonce was created before WordPress could ([8a5f4a6](https://github.com/palasthotel/wp-permalink-history/commit/8a5f4a6d0bd4800656272c8cc5f3ae6a913a23c0))
+* restore the site - the nonce was created before WordPress could ([4f4fa9f](https://github.com/palasthotel/wp-permalink-history/commit/4f4fa9ff880c030b2458e5f7fdc6778d6aa607fb))
+
 ## [2.0.4](https://github.com/palasthotel/wp-permalink-history/compare/v2.0.3...v2.0.4) (2026-07-31)
 
 
