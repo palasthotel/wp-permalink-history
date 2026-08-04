@@ -28,7 +28,7 @@
 	},
 	"prettier": "@wordpress/prettier-config",
 	"devDependencies": {
-		"@eslint/js": "^9.39.2",
+		"@eslint/js": "^10.0.1",
 		"@types/wordpress__block-editor": "^14.21.8",
 		"@types/wordpress__blocks": "^12.5.18",
 		"@types/wordpress__edit-post": "^8.4.2",
