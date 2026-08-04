@@ -18,11 +18,15 @@ Permalink History is a WordPress plugin that allows you to keep track of changes
 ## Usage
 1. To view the permalink history for a post or page, go to the edit screen of the post or page.
 2. In the sidebar under the “Permalink History” section, you will see a list of all the previous permalinks for that post or page.
-3. You can click on any of the previous permalinks to view the redirect settings or to manage the redirects.
+3. Each entry has a checkbox. Uncheck one and save the post to drop that redirect — the entry is deleted for good, and the old URL starts returning a 404 again.
+
+![The Permalink History panel in the editor sidebar, listing a previous path with a checkbox](assets/screenshot-1.png)
+
+A redirect map of every historical URL can be exported on **Settings → Permalinks**.
 
 
 ## FAQ
-### Does this work with changes made before plugin installation? =
+### Does this work with changes made before plugin installation?
 Nope! You need to first install this plugin to start saving the history.
 
 ### Does this effect my site performance?
