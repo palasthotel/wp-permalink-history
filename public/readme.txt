@@ -43,6 +43,10 @@ But to be honest. Perhaps it could get an issue, yes. Therefore you export a red
 == Changelog ==
 
 = 2.0.4 =
+**Do not use this version.** It fails with a fatal error on every request, the front
+end included, because a nonce was created before WordPress had loaded the function
+that creates it. Fixed in 2.0.5.
+
 **Bug Fixes**
 * bind the LIKE term and LIMIT values in database queries (975aa76)
 * block direct file access and use a literal text domain (05b34e5)
@@ -105,3 +109,9 @@ But to be honest. Perhaps it could get an issue, yes. Therefore you export a red
 
 = 1.0.0 =
 * First release
+
+== Upgrade Notice ==
+
+= 2.0.5 =
+Fixes a fatal error in 2.0.4 that took every page of the site down, the front end and
+the login screen included. Update as soon as you can, and do not roll back to 2.0.4.
