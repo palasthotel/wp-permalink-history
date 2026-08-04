@@ -30,7 +30,7 @@
 	"devDependencies": {
 		"@eslint/js": "^9.39.2",
 		"@types/wordpress__block-editor": "^14.21.8",
-		"@types/wordpress__blocks": "^12.5.18",
+		"@types/wordpress__blocks": "^15.17.0",
 		"@types/wordpress__edit-post": "^8.4.2",
 		"@wordpress/block-editor": "^15.23.0",
 		"@wordpress/components": "^29.12.0",
