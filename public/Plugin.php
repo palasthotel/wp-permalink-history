@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Permalink History
  * Description: Saves a history of post and page permalinks and adds redirects for old permalinks.
- * Version: 2.0.4
+ * Version: 2.0.5
  * Requires at least: 6.6
  * Requires PHP: 8.0
  * Author: PALASTHOTEL (Edward Bock, Lucas Regalar, Jana Eggebrecht)

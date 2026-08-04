@@ -5,7 +5,7 @@ Tags: seo, permalink, backup, protocol, history
 Requires at least: 6.6
 Tested up to: 7.0.2
 Requires PHP: 8.0
-Stable tag: 2.0.4
+Stable tag: 2.0.5
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -43,6 +43,11 @@ But to be honest. Perhaps it could get an issue, yes. Therefore you export a red
 1. The Permalink History panel in the editor sidebar: every path this content was reachable under before. Unchecking one and saving deletes that redirect for good.
 
 == Changelog ==
+
+= 2.0.5 =
+**Bug Fixes**
+* restore the site - the nonce was created before WordPress could (8a5f4a6)
+* restore the site - the nonce was created before WordPress could (4f4fa9f)
 
 = 2.0.4 =
 **Bug Fixes**
