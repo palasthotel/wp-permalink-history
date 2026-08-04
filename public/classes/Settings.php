@@ -39,7 +39,7 @@ class Settings extends Component {
 		// TODO: make this async call with paged redirects response and render it into a textarea
 		printf(
 			'<p><a href="%1$s" target="_blank" rel="noopener">%2$s</a></p>',
-			esc_url( $this->plugin->redirects->ajaxurl ),
+			esc_url( $this->plugin->redirects->getAjaxUrl() ),
 			esc_html__( 'Generate redirects map (this can take a while)...', 'permalink-history' )
 		);
 	}

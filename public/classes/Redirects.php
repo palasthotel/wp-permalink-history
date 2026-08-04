@@ -16,16 +16,24 @@ class Redirects extends Component {
 
 	const ACTION = "permalink_history_map";
 
-    public string $ajaxurl;
-
 	public function onCreate():void {
-		$this->ajaxurl = wp_nonce_url(
+		add_action( 'template_redirect', array( $this, 'on_404' ), 99 );
+		add_action( 'wp_ajax_' . self::ACTION, array( $this, 'ajax_redirect_map' ) );
+	}
+
+	/**
+	 * Nonced URL of the redirect map endpoint.
+	 *
+	 * Built on demand, not in onCreate(): wp_nonce_url() reaches wp_create_nonce(),
+	 * which lives in pluggable.php - and wp-settings.php requires that file *after*
+	 * it has loaded the plugins, so the function does not exist yet while this
+	 * component is being constructed.
+	 */
+	public function getAjaxUrl(): string {
+		return wp_nonce_url(
 			admin_url( "admin-ajax.php?action=" . self::ACTION ),
 			self::ACTION
 		);
-
-		add_action( 'template_redirect', array( $this, 'on_404' ), 99 );
-		add_action( 'wp_ajax_' . self::ACTION, array( $this, 'ajax_redirect_map' ) );
 	}
 
 	/**
