@@ -40,6 +40,8 @@ But to be honest. Perhaps it could get an issue, yes. Therefore you export a red
 
 == Screenshots ==
 
+1. The Permalink History panel in the editor sidebar: every path this content was reachable under before. Unchecking one and saving deletes that redirect for good.
+
 == Changelog ==
 
 = 2.0.4 =
