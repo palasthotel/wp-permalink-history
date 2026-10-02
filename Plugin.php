@@ -5,8 +5,8 @@
  * Version:           X.X.X
  * Requires at least: X.X
  * Tested up to:      X.X.X
- * Author:            PALASTHOTEL by Edward
- * Author URI:        https://www.palasthotel.de
+ * Author:            Palasthotel
+ * Author URI:        https://palasthotel.de
  * Domain Path:       /public/languages
  */
 
