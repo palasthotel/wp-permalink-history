@@ -5,11 +5,11 @@ namespace Palasthotel\PermalinkHistory\Components;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Class MultiSite
+ * Class Multisite
  * @package Palasthotel\WordPress
  * @version 0.1.1
  */
-class MultiSite {
+class Multisite {
 	public static function foreach(callable $onSite){
 		if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 			$network_site = get_network()->site_id;
