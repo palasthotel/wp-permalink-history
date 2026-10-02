@@ -5,7 +5,7 @@ Tags: seo, permalink, backup, protocol, history
 Requires at least: 6.6
 Tested up to: 7.1.2
 Requires PHP: 8.0
-Stable tag: 2.0.5
+Stable tag: 2.0.6
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -43,6 +43,11 @@ But to be honest. Perhaps it could get an issue, yes. Therefore you export a red
 1. The Permalink History panel in the editor sidebar: every path this content was reachable under before. Unchecking one and saving deletes that redirect for good.
 
 == Changelog ==
+
+= 2.0.6 =
+**Bug Fixes**
+* network-wide activation on case-sensitive file systems (34f8234)
+* only resolve old paths to publicly visible content (64140be)
 
 = 2.0.5 =
 **Bug Fixes**

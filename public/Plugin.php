@@ -3,7 +3,7 @@
  * Plugin Name: Permalink History
  * Plugin URI: https://github.com/palasthotel/wp-permalink-history
  * Description: Saves a history of post and page permalinks and adds redirects for old permalinks.
- * Version: 2.0.5
+ * Version: 2.0.6
  * Requires at least: 6.6
  * Tested up to: 7.1.2
  * Requires PHP: 8.0

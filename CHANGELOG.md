@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.6](https://github.com/palasthotel/wp-permalink-history/compare/v2.0.5...v2.0.6) (2026-10-02)
+
+
+### Bug Fixes
+
+* network-wide activation on case-sensitive file systems ([34f8234](https://github.com/palasthotel/wp-permalink-history/commit/34f8234a36c6a78679e61a7ef3c8e9d8330b086f))
+* only resolve old paths to publicly visible content ([64140be](https://github.com/palasthotel/wp-permalink-history/commit/64140be6d36ffaee770c6393cd206ec0ad3c8731))
+
 ## [2.0.5](https://github.com/palasthotel/wp-permalink-history/compare/v2.0.4...v2.0.5) (2026-08-04)
 
 
