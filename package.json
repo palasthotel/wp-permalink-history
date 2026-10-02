@@ -24,7 +24,7 @@
 		"wp-env:stop": "wp-env stop",
 		"build": "wp-scripts build gutenberg.ts=./src/gutenberg.ts --output-path=./public/dist",
 		"dev": "wp-scripts start gutenberg.ts=./src/gutenberg.ts --output-path=./public/dist",
-		"pack": "./bin/build-plugin.sh"
+		"pack": "SLUG=permalink-history bash ../github-workflows/wp-plugin/bin/pack.sh"
 	},
 	"prettier": "@wordpress/prettier-config",
 	"devDependencies": {
