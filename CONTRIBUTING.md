@@ -1,288 +1,114 @@
-# Contributing to Permalink History
+# Contributing
 
-## Code of Conduct
+The project has a [Code of Conduct](CODE_OF_CONDUCT.md) that all contributors are
+expected to follow. Security issues are not reported as issues - see
+[SECURITY.md](SECURITY.md).
 
-The project has a [Code of Conduct](./CODE_OF_CONDUCT.md) to which all contributors must adhere.
+## Branching
 
-## Overview
+`main` is the default branch and always reflects what is released (or about to be
+released). Work on a feature branch and open a pull request against `main`.
 
-Feedback and contributions are very welcome!
+## Commit messages
 
-Here's help on how to make contributions, divided into the following sections:
-
-* general information,
-* [vulnerability reporting](#vulnerability-reporting-security-issues),
-* documentation changes,
-* code changes,
-* reuse (third-party components)
-
-## General information
-
-For specific proposals, please provide them as
-[pull requests](https://github.com/palasthotel/wp-permalink-history/pulls)
-or
-[issues](https://github.com/palasthotelv/wp-permalink-history/issues)
-via our
-[GitHub site](https://github.com/palasthotel/wp-permalink-history).
-
-We use GitHub. You may find
-[GitHub CLI (`gh`)](https://cli.github.com/)
-helpful if you're using the command line.
-It supports commands like `gh auth login` (login) and
-`gh pr create` (create a new pull request
-with the current branch).
-
-See [CODE OF CONDUCT](./CODE_OF_CONDUCT.md) for our code of conduct;
-in short, "Be excellent to each other".
-
-### Pull requests and different branches recommended
-
-Pull requests are preferred, since they are specific.
-For more about how to create a pull request, see
-<https://help.github.com/articles/using-pull-requests/>.
-
-We recommend creating different branches for different (logical)
-changes, and creating a pull request when you're done into the main branch.
-See the GitHub documentation on
-[creating branches](https://help.github.com/articles/creating-and-deleting-branches-within-your-repository/)
-and
-[using pull requests](https://help.github.com/articles/using-pull-requests/).
-
-### How we handle proposals
-
-We use GitHub to track proposed changes via its
-[issue tracker](https://github.com/palasthotel/wp-permalink-history/issues) and
-[pull requests](https://github.com/palasthotel/wp-permalink-history/pulls).
-Specific changes are proposed using those mechanisms.
-Issues are assigned to an individual, who works it and then marks it complete.
-If there are questions or objections, the conversation area of that
-issue or pull request is used to resolve it.
-
-### Two-person review
-
-Our policy is that at least 50% of all proposed modifications will be reviewed
-before release by a person other than the author,
-to determine if it is a worthwhile modification and free of known issues
-which would argue against its inclusion.
-
-We achieve this by splitting proposals into two kinds:
-
-1. Low-risk modifications.  These modifications are being proposed by
-   people authorized to commit directly, pass all tests, and are unlikely
-   to have problems.  These include documentation/text updates and/or updates
-   to depedencies already in use where no risk (such as a security risk)
-   have been identified.  The project lead can decide that any particular
-   modification is low-risk.
-2. Other modifications.  These other modifications need to be
-   reviewed by someone else or the project lead can decide to accept
-   the modification.  Typically this is done by creating a branch and a
-   pull request so that it can be reviewed before accepting it.
-
-### Developer Certificate of Origin (DCO)
-
-All contributions (including pull requests) must agree to
-the Developer Certificate of Origin (DCO) version 1.1.
-This is exactly the same one created and used by the Linux kernel developers
-and posted on <http://developercertificate.org/>.
-This is a developer's certification that he or she has the right to
-submit the patch for inclusion into the project.
-
-Simply submitting a contribution implies this agreement, however,
-please include a "Signed-off-by" tag in every patch
-(this tag is a conventional way to confirm that you agree to the DCO).
-You can do this with `git commit --signoff` (the `-s` flag
-is a synonym for `--signoff`).
-
-Another way to do this is to write the following at the end of the commit
-message, on a line by itself separated by a blank line from the body of
-the commit:
-
-````text
-Signed-off-by: YOUR NAME <YOUR.EMAIL@EXAMPLE.COM>
-````
-
-You can signoff by default in this project by creating a file
-(say "git-template") that contains
-some blank lines and the signed-off-by text above;
-then configure git to use that as a commit template.  For example:
-
-````sh
-git config commit.template ~/.git-template
-````
-
-It's not practical to fix old contributions in git, so if one is forgotten,
-do not try to fix them.  We presume that if someone sometimes used a DCO,
-a commit without a DCO is an accident and the DCO still applies.
-
-### License (GPL-3.0-or-later)
-
-All (new) contributed source code must be released under the
-[GNU General Public License v3.0 or later](./LICENSE), the licence this plugin is
-distributed under. Contributions were accepted under the MIT licence until
-2026-08-03; the switch to GPL-3.0 keeps the source and the distributed plugin
-under the same terms, so a fork cannot be closed up.
-
-### We are proactive
-
-In general we try to be proactive to detect and eliminate
-mistakes and vulnerabilities as soon as possible,
-and to reduce their impact when they do happen.
-We use a defensive design and coding style to reduce the likelihood of mistakes,
-a variety of tools that try to detect mistakes early,
-and an automatic test suite with significant coverage.
-We also release the software as open source software so others can review it.
-
-Since early detection and impact reduction can never be perfect, we also try to
-detect and repair problems during deployment as quickly as possible.
-This is *especially* true for security issues; see our
-[security information](./SECURITY.md) for more.
-
-## Vulnerability reporting (security issues)
-
-Please privately report vulnerabilities you find, so we can fix them!
-
-See [SECURITY.md](./SECURITY.md) for information on how to privately report vulnerabilities.
-
-## Documentation changes
-
-Most of the documentation is in "markdown" format.
-All markdown files use the .md filename extension.
-
-Where reasonable, limit yourself to Markdown
-that will be accepted by different markdown processors
-(e.g., what is specified by CommonMark or the original Markdown)
-In practice we use
-the version of Markdown implemented by GitHub when it renders .md files,
-and you can use its extensions
-(in particular, mark code snippets with the programming language used).
-This version of markdown is sometimes called
-[GitHub-flavored markdown](https://help.github.com/articles/github-flavored-markdown/).
-In particular, blank lines separate paragraphs; newlines inside a paragraph
-do *not* force a line break.
-Beware - this is *not*
-the same markdown algorithm used by GitHub when it renders
-issue or pull comments; in those cases
-[newlines in paragraph-like content are considered as real line breaks](https://help.github.com/articles/writing-on-github/);
-unfortunately this other algorithm is *also* called
-GitHub rendered markdown.
-(Yes, it'd be better if there were standard different names
-for different things.)
-
-The style is basically that enforced by the "markdownlint" tool.
-Don't use tab characters, avoid "bare" URLs (in a hypertext link, the
-link text and URL should be on the same line), and try to limit
-lines to 80 characters (but ignore the 80-character limit if that would
-create bare URLs).
-Using the "rake markdownlint" or "rake" command
-(described below) implemented in the development
-environment can detect some problems in the markdown.
-That said, if you don't know how to install the development environment,
-don't worry - we'd rather have your proposals, even if you don't know how to
-check them that way.
-
-Do not use trailing two spaces for line breaks, since these cannot be
-seen and may be silently removed by some tools.
-Instead, use `<br />` (an HTML break).
-
-## Code changes
-
-The code should strive to be DRY (don't repeat yourself),
-clear, and obviously correct.
-Some technical debt is inevitable, just don't bankrupt us with it.
-Improved refactorizations are welcome.
-
-### Security, privacy, and performance
-
-Pay attention to security, and work *with* (not against) our
-security hardening mechanisms.
-Protect private information, in particular passwords and email addresses.
-Avoid mechanisms that could be used for tracking where possible
-(we do need to verify people are logged in for some operations),
-and ensure that third parties can't use interactions for tracking.
-
-For more about security, see [security](./SECURITY.md).
-
-We want the software to have decent performance for typical users.
-Don't send megabytes of data for a request
-(see
-[The Website Obesity Crisis](http://idlewords.com/talks/website_obesity.htm)).
-Use caching (at the server, and user side) to improve performance
-in typical cases (while avoiding making the code too complicated).
-
-There's always a trade-off between various attributes, in particular,
-don't make performance so fast that the software is hard to maintain.
-Instead, work to get "reasonable" performance in typical cases.
-
-## Commit messages and releases
-
-Releases and the changelog are generated from the commit history by
-[release-please](https://github.com/googleapis/release-please), so commit
-messages follow [Conventional Commits](https://www.conventionalcommits.org/):
+Releases and the changelog are generated from the commit history, so commit messages
+follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ```
 <type>[optional scope][!]: <description>
+
+[optional body]
+
+[optional footer]
 ```
 
 | Type | Effect on the version | Appears in changelog |
 |---|---|---|
-| `fix:` | patch (2.0.3 → 2.0.4) | yes, "Bug Fixes" |
-| `feat:` | minor (2.0.3 → 2.1.0) | yes, "Features" |
-| `feat!:` or a `BREAKING CHANGE:` footer | major (2.0.3 → 3.0.0) | yes, highlighted |
-| `docs:`, `refactor:`, `chore:`, `deps:`, `ci:`, `style:`, `test:` | none | no |
+| `fix:` | patch (2.0.5 → 2.0.6) | yes, "Bug Fixes" |
+| `feat:` | minor (2.0.5 → 2.1.0) | yes, "Features" |
+| `feat!:` or `BREAKING CHANGE:` footer | major (2.0.5 → 3.0.0) | yes, highlighted |
+| `docs:`, `refactor:`, `chore:`, `deps:`, `style:`, `test:`, `ci:` | none | no |
 
-A pull request that should trigger a release needs at least one `fix:` or
-`feat:` commit. When squash-merging, the squash commit message itself has to be
-a conventional commit — that is the message release-please reads.
+A pull request that should trigger a release needs at least one `fix:` or `feat:`
+commit. When squash-merging, make sure the squash commit message itself is a
+conventional commit — that is the message release-please reads.
 
 ### Which changes get `fix:` or `feat:`
 
-Only changes that matter to someone using the plugin. `fix:` and `feat:` decide
-the version *and* write the line that ends up in the changelog on the
-wordpress.org plugin page, so the question to ask before committing is whether a
-user of the plugin would care about that line.
+Only changes that matter to someone using the plugin. `fix:` and `feat:` decide the
+version *and* write the line that ends up in the changelog on the wordpress.org plugin
+page, so the question to ask before committing is whether a user of the plugin would care
+about that line.
 
-Everything else takes a type that releases nothing — workflows and CI, release
-tooling, repository documentation, internal refactoring, and anything touching
-files that are not shipped. As a rule of thumb, a change confined to files
-outside `public/` is almost never a `fix:`.
+Everything else takes a type that releases nothing — workflows and CI, release tooling,
+repository documentation, internal refactoring, dependency updates of the build, and
+anything touching files that are not shipped. As a rule of thumb, a change confined to
+files outside `public/` is almost never a `fix:`. That includes hardening: blocking
+direct access to a file that is not part of the download is `chore:`.
 
-That includes hardening. Blocking direct access to a file that is not part of the
-download is `chore:`, not `fix:` — nothing changes for anyone who installed the
-plugin.
+## Repository layout
 
-Never edit version numbers by hand. `package.json`, `CHANGELOG.md`,
-`public/Plugin.php` and the `Stable tag:` in `public/readme.txt` are all
-maintained by the release pipeline, which is documented in
-[.github/WORKFLOWS.md](./.github/WORKFLOWS.md). Content changes to
-`public/readme.txt` (description, FAQ, tested-up-to) are of course made by hand;
-just leave `Stable tag:` and the `== Changelog ==` entries alone.
+`public/` is exactly what ships to WordPress.org. Everything outside it is
+repository-only.
 
-## Reuse (supply chain)
+| Path | Description |
+|---|---|
+| `public/Plugin.php` | the plugin: header and bootstrap |
+| `public/classes/` | the plugin's classes, autoloaded by composer (PSR-4, `Palasthotel\PermalinkHistory\`) |
+| `public/vendor/` | the composer autoloader; the pack regenerates it without dev dependencies |
+| `public/dist/` | the compiled editor panel - built, not in the repository |
+| `public/languages/` | translations; `permalink-history.pot` is generated with `wp i18n make-pot` |
+| `public/readme.txt` | the wordpress.org listing |
+| `src/` | the editor panel in TypeScript |
+| `assets/` | icon and screenshot of the wordpress.org plugin page, mirrored to SVN `assets/` |
+| `Plugin.php` | development wrapper, loads `public/`; never deployed |
 
-### Requirements for reused components
+The main file `public/Plugin.php` must keep its name. WordPress identifies an installed
+plugin by `<directory>/<main file>` and stores that pair in `active_plugins`; renaming it
+deactivates the plugin on every site at the next update.
 
-We prefer reusing components instead of writing lots of code,
-but please evaluate all new components before adding them
-(including whether or not you need them).
-We want to reduce our risks of depending on software that is poorly
-maintained or has vulnerabilities (intentional or unintentional).
+A class file has to be named exactly like the class, including case: the autoloader
+looks the file up by the class name, and a Linux server does not find `Multisite.php`
+for `MultiSite`.
 
-Prefer software that appears to be currently maintained (e.g., has recent
-updates), has more than one developer, and appears to be applying good
-practices.
+## Local setup
 
-#### License requirements for reused components
+```sh
+npm ci
+npm run build                 # compiles src/ into public/dist/ (npm run dev to watch)
+npx @wordpress/env start      # http://localhost:8888, admin / password
+```
 
-All *required* reused software *must* be open source software (OSS).
-We use 'license_finder' to help ensure that we're using OSS legally.
+`.wp-env.json` mounts `public/` as the plugin, so `npm run build` has to run before the
+editor panel shows up. Set `WP_ENV_PORT` if port 8888 is taken. Permalinks have to be
+set to anything but "Plain" - without a permalink structure the plugin records nothing.
 
-In general we want to use GPL-compatible OSS licenses.
+`npm run lint` runs ESLint and `tsc --noEmit`; wp-scripts itself never checks the types.
 
-### Updating reused components
+`npm run pack` stages the payload in `build/permalink-history/` and zips it to
+`permalink-history.zip` — the same payload the release deploys. It runs the shared script
+from [palasthotel/github-workflows](https://github.com/palasthotel/github-workflows),
+which has to be checked out next to this repository, and expects `npm run build` to have
+run.
 
-Please update only one or few components in each commit, instead of
-"everything at once".  This makes debugging problems much easier.
+## Dependencies
 
-## Aknowledgements
+All npm packages are `devDependencies`: nothing from `node_modules` ships, and the
+`@wordpress/*` packages as well as React are externalised - the browser gets
+WordPress core's copies. Update them together in one commit (`chore(deps): …`) and
+verify with `npm ci && npm run lint && npm run build`; the dependency list in
+`public/dist/gutenberg.ts.asset.php` shows whether anything changes at runtime.
 
-This document is based on the [CONTRIBUTING.md](https://github.com/coreinfrastructure/best-practices-badge/blob/main/CONTRIBUTING.md) of the [OpenSSF Best Practices Badge Programm -  BadgeApp](https://www.bestpractices.dev/en) (CC BY 3.0).
+## Versions
+
+Never edit version numbers by hand. `package.json`, `CHANGELOG.md`, `public/Plugin.php`
+and the `Stable tag:` in `public/readme.txt` are all maintained by the release pipeline —
+see [.github/WORKFLOWS.md](.github/WORKFLOWS.md).
+
+Content changes to `public/readme.txt` (description, FAQ, tested-up-to) are of course done
+by hand; just leave `Stable tag:` and the `== Changelog ==` entries alone.
+
+## Checks
+
+Every PR runs `php -l` against PHP 8.0, 8.2, 8.3 and 8.4, builds and packs the plugin and
+checks the payload, checks that the version carriers agree, and runs ESLint and `tsc`.

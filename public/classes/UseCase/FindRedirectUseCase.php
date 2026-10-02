@@ -81,16 +81,20 @@ class FindRedirectUseCase extends Component {
 		$before = apply_filters(Plugin::FILTER_FIND_REDIRECT_BEFORE, null, $requestPath);
 		if (is_string($before) && !empty($before)) return $before;
 
+		// The public ajax endpoint hands out what this returns, so the same rule as
+		// for the history applies: only content a visitor can reach. A published
+		// post of a non-viewable type or a term of a non-public taxonomy has no
+		// page to redirect to anyway.
 		$post_id = $this->plugin->database->getPostId($requestPath);
-		if ($post_id > 0 && get_post_status($post_id) == "publish") {
+		if ($this->isPubliclyVisible($post_id, Database::CONTENT_TYPE_POST)) {
 			$permalink = get_permalink($post_id);
 			if ($permalink) return $permalink;
 		}
 
 		$term_taxonomy_id = $this->plugin->database->getTermTaxonomyId($requestPath);
-		if ($term_taxonomy_id > 0) {
-			$term = $this->plugin->term_taxonomy->getTerm($term_taxonomy_id);
-			if ($term instanceof \WP_Term) return get_term_link($term);
+		if ($this->isPubliclyVisible($term_taxonomy_id, Database::CONTENT_TYPE_TERM_TAXONOMY)) {
+			$link = get_term_link($this->plugin->term_taxonomy->getTerm($term_taxonomy_id));
+			if (is_string($link)) return $link;
 		}
 
 		return apply_filters(Plugin::FILTER_FIND_REDIRECT_AFTER, null, $requestPath);
