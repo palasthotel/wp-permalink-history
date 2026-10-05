@@ -5,7 +5,7 @@
  * Description: Saves a history of post and page permalinks and adds redirects for old permalinks.
  * Version: 2.0.6
  * Requires at least: 6.6
- * Tested up to: 7.1.2
+ * Tested up to: 7.1
  * Requires PHP: 8.0
  * Author: Palasthotel <webmaster@palasthotel.de>
  * Author URI: https://palasthotel.de
