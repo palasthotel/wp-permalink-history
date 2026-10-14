@@ -35,7 +35,7 @@
 	"devDependencies": {
 		"@eslint/js": "^9.39.5",
 		"@types/react": "^19.3.0",
-		"@wordpress/components": "^41.0.0",
+		"@wordpress/components": "^42.0.0",
 		"@wordpress/core-data": "^8.2.0",
 		"@wordpress/data": "^10.56.0",
 		"@wordpress/editor": "^15.2.0",
