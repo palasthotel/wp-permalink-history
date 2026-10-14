@@ -19,7 +19,7 @@ jobs:
       dev-plugin-name: Permalink History - DEV
       build-command: npm ci && npm run build
       # Requires PHP 8.0: constructor promotion and union types do not parse on 7.4
-      php-versions: '["8.0", "8.1", "8.2", "8.3", "8.4"]'
+      php-versions: '["8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]'
       required-files: |
         vendor/autoload.php
         dist/gutenberg.ts.js
