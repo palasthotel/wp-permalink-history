@@ -12,9 +12,6 @@ jobs:
   checks:
     uses: palasthotel/github-workflows/.github/workflows/wp-plugin-pr.yml@v1
     with:
-      # Plugin Check reports errors on this plugin - see https://github.com/palasthotel/wp-permalink-history/issues/97.
-      # Remove this line once they are fixed.
-      plugin-check: false
       slug: permalink-history
       dev-plugin-name: Permalink History - DEV
       build-command: npm ci && npm run build
