@@ -114,5 +114,5 @@ submission scan rejects a patch number.
 
 ## Checks
 
-Every PR runs `php -l` against PHP 8.0 to 8.4, builds and packs the plugin and
+Every PR runs `php -l` against PHP 8.0 to 8.5, builds and packs the plugin and
 checks the payload, checks that the version carriers agree, and runs ESLint and `tsc`.
