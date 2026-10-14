@@ -23,6 +23,6 @@ class Utils {
 	 * @return mixed
 	 */
 	static function getUrlPath($url){
-		return parse_url( $url,  PHP_URL_PATH);
+		return wp_parse_url( $url, PHP_URL_PATH );
 	}
 }

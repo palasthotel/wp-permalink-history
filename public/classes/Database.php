@@ -73,8 +73,10 @@ class Database extends Components\Database {
 	}
 
 	public function getById( int $id ) {
-		return HistoryItem::parse( $this->wpdb->get_row(
-			$this->wpdb->prepare( "SELECT * FROM $this->tablename WHERE id = %d", $id)
+		$wpdb = $this->wpdb;
+
+		return HistoryItem::parse( $wpdb->get_row(
+			$wpdb->prepare( "SELECT * FROM %i WHERE id = %d", $this->tablename, $id )
 		) );
 	}
 
@@ -85,9 +87,12 @@ class Database extends Components\Database {
 	 * @return int
 	 */
 	public function getId( $permalink_without_domain, $content_type ) {
-		return intval( $this->wpdb->get_var(
-			$this->wpdb->prepare(
-				"SELECT content_id FROM $this->tablename WHERE permalink IN ( %s, %s, %s, %s ) AND content_type = %s ORDER BY id DESC LIMIT 1",
+		$wpdb = $this->wpdb;
+
+		return intval( $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT content_id FROM %i WHERE permalink IN ( %s, %s, %s, %s ) AND content_type = %s ORDER BY id DESC LIMIT 1",
+				$this->tablename,
 				$permalink_without_domain,
 				"/" . $permalink_without_domain,
 				$permalink_without_domain."/",
@@ -101,12 +106,16 @@ class Database extends Components\Database {
 		// The LIKE term has to be a bound argument. Interpolating it into the
 		// query leaves quotes unescaped (esc_like only handles _ % \) and any
 		// path starting with s, d or f would form a bogus placeholder.
-		$query = $this->wpdb->prepare(
-			"SELECT content_id FROM $this->tablename WHERE permalink LIKE %s AND content_type = %s ORDER BY id DESC LIMIT 1",
-			'%' . $this->wpdb->esc_like( $path ) . '%',
-			$content_type
-		);
-		return intval($this->wpdb->get_var($query));
+		$wpdb = $this->wpdb;
+
+		return intval( $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT content_id FROM %i WHERE permalink LIKE %s AND content_type = %s ORDER BY id DESC LIMIT 1",
+				$this->tablename,
+				'%' . $wpdb->esc_like( $path ) . '%',
+				$content_type
+			)
+		) );
 	}
 
 	/**
@@ -135,9 +144,12 @@ class Database extends Components\Database {
 	 * @return boolean
 	 */
 	public function permalinkHistoryExists( $content_id, $permalink_without_domain, $content_type ) {
-		return intval( $this->wpdb->get_var(
-				$this->wpdb->prepare(
-					"SELECT count(id) FROM $this->tablename WHERE permalink IN ( %s, %s, %s, %s ) AND content_type = %s AND content_id = %d",
+		$wpdb = $this->wpdb;
+
+		return intval( $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT count(id) FROM %i WHERE permalink IN ( %s, %s, %s, %s ) AND content_type = %s AND content_id = %d",
+					$this->tablename,
 					$permalink_without_domain,
 					"/" . $permalink_without_domain,
 					$permalink_without_domain. "/",
@@ -180,9 +192,11 @@ class Database extends Components\Database {
 
 		return $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT ID FROM $wpdb->posts WHERE post_status = 'publish' AND guid != '' AND post_name != ''
-				AND ID NOT IN ( SELECT DISTINCT content_id FROM $this->tablename WHERE content_type = %s )
+				"SELECT ID FROM %i WHERE post_status = 'publish' AND guid != '' AND post_name != ''
+				AND ID NOT IN ( SELECT DISTINCT content_id FROM %i WHERE content_type = %s )
 				LIMIT %d, %d",
+				$wpdb->posts,
+				$this->tablename,
 				self::CONTENT_TYPE_POST,
 				$offset,
 				$limit
@@ -204,11 +218,14 @@ class Database extends Components\Database {
 		// because there were cases where there have been orphaned term_taxonomy entries
 		return $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT tt.term_taxonomy_id as id FROM $wpdb->terms as t LEFT JOIN $wpdb->term_taxonomy as tt ON (t.term_id = tt.term_id)
+				"SELECT tt.term_taxonomy_id as id FROM %i as t LEFT JOIN %i as tt ON (t.term_id = tt.term_id)
 				WHERE tt.term_taxonomy_id NOT IN (
-				  SELECT DISTINCT content_id FROM $this->tablename WHERE content_type = %s
+				  SELECT DISTINCT content_id FROM %i WHERE content_type = %s
 				)
 				LIMIT %d, %d",
+				$wpdb->terms,
+				$wpdb->term_taxonomy,
+				$this->tablename,
 				self::CONTENT_TYPE_TERM_TAXONOMY,
 				$offset,
 				$limit
@@ -223,12 +240,14 @@ class Database extends Components\Database {
 	 * @return HistoryItem[]
 	 */
 	public function getHistoryFor($content_id, $content_type){
+		$wpdb = $this->wpdb;
+
 		return array_map(
 			function ($item) {
 				return HistoryItem::parse($item);
 			},
-			$this->wpdb->get_results(
-				$this->wpdb->prepare( "SELECT * FROM $this->tablename WHERE content_id = %d AND content_type = %s ORDER BY id", $content_id, $content_type )
+			$wpdb->get_results(
+				$wpdb->prepare( "SELECT * FROM %i WHERE content_id = %d AND content_type = %s ORDER BY id", $this->tablename, $content_id, $content_type )
 			)
 		);
 	}
@@ -238,13 +257,16 @@ class Database extends Components\Database {
 	 * @return HistoryItem[]
 	 */
 	public function getHistoryOf( string $content_type, int $limit = 1000, int $page = 0 ) {
+		$wpdb = $this->wpdb;
+
 		return array_map(
 			function ($item) {
 				return HistoryItem::parse($item);
 			},
-			$this->wpdb->get_results(
-				$this->wpdb->prepare(
-					"SELECT * FROM $this->tablename WHERE content_type = %s order by id LIMIT %d OFFSET %d",
+			$wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM %i WHERE content_type = %s order by id LIMIT %d OFFSET %d",
+					$this->tablename,
 					$content_type,
 					$limit,
 					$page * $limit
@@ -271,7 +293,9 @@ class Database extends Components\Database {
 	 * @return string[]
 	 */
 	public function getContentTypes(){
-		return $this->wpdb->get_col("SELECT DISTINCT content_type FROM $this->tablename");
+		$wpdb = $this->wpdb;
+
+		return $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT content_type FROM %i", $this->tablename ) );
 	}
 
 	/**
@@ -280,9 +304,15 @@ class Database extends Components\Database {
 	 * @return int
 	 */
 	public function getCount($content_type = ""){
-		$where = "";
-		if(!empty($content_type )) $where = $this->wpdb->prepare("WHERE content_type = %s", $content_type);
-		return intval($this->wpdb->get_var("SELECT count(id) FROM $this->tablename $where"));
+		$wpdb = $this->wpdb;
+
+		if ( empty( $content_type ) ) {
+			return intval( $wpdb->get_var( $wpdb->prepare( "SELECT count(id) FROM %i", $this->tablename ) ) );
+		}
+
+		return intval( $wpdb->get_var(
+			$wpdb->prepare( "SELECT count(id) FROM %i WHERE content_type = %s", $this->tablename, $content_type )
+		) );
 	}
 
 	/**

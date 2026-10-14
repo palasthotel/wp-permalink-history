@@ -26,12 +26,12 @@ class WPCli {
 	 */
 	function init($args, $assoc_args){
 		$plugin = Plugin::instance();
-		echo "\n";
+		\WP_CLI::log( "" );
 
 		$limit = ( isset( $assoc_args['perPage'] ) && intval( $assoc_args['perPage'] ) > 0)?
 			intval( $assoc_args['perPage'] ) : 100;
 
-		echo "Try to initialize history of posts without permalink history...\n";
+		\WP_CLI::log( "Try to initialize history of posts without permalink history..." );
 
 		$count = 0;
 		$error = false;
@@ -50,10 +50,10 @@ class WPCli {
 
 				$permalink = $plugin->post->getEscapedPermalink( $id );
 				$title     = get_the_title( $id );
-				echo ( ( $worked ) ? "✅  " : "🚨  " ) . "$id: $title $permalink\n";
+				\WP_CLI::log( ( ( $worked ) ? "✅  " : "🚨  " ) . "$id: $title $permalink" );
 				if ( ! $worked ) {
 					$error = true;
-					echo $plugin->database->wpdb->last_error . "\n";
+					\WP_CLI::log( $plugin->database->wpdb->last_error );
 					break;
 				}
 				$count ++;
@@ -63,11 +63,11 @@ class WPCli {
 				break;
 			}
 		}
-		echo "Initialized $count posts history.\n";
-		echo ( $error ) ? "Stopped by error..." : "Finished successfully.\n";
+		\WP_CLI::log( "Initialized $count posts history." );
+		\WP_CLI::log( ( $error ) ? "Stopped by error..." : "Finished successfully." );
 
-		echo "\n";
-		echo "Try to initialize history of term taxonomies without permalink history...\n";
+		\WP_CLI::log( "" );
+		\WP_CLI::log( "Try to initialize history of term taxonomies without permalink history..." );
 
 		$count = 0;
 		$error = false;
@@ -80,7 +80,7 @@ class WPCli {
 				$permalink = $plugin->term_taxonomy->getEscapedPermalink( $term_taxonomy_id );
 
 				if($permalink == false) {
-					echo "🚨  Problem with $term_taxonomy_id\n";
+					\WP_CLI::log( "🚨  Problem with $term_taxonomy_id" );
 					$error = true;
 					break;
 				}
@@ -90,10 +90,10 @@ class WPCli {
 					$permalink
 				);
 				$term   = get_term_by( 'term_taxonomy_id', $term_taxonomy_id );
-				echo ( ( $worked ) ? "✅  " : "🚨  " ) . "$term_taxonomy_id: $term->name $permalink\n";
+				\WP_CLI::log( ( ( $worked ) ? "✅  " : "🚨  " ) . "$term_taxonomy_id: $term->name $permalink" );
 				if ( ! $worked ) {
 					$error = true;
-					echo $plugin->database->wpdb->last_error . "\n";
+					\WP_CLI::log( $plugin->database->wpdb->last_error );
 					break;
 				}
 				$count ++;
@@ -103,10 +103,10 @@ class WPCli {
 			}
 		}
 
-		echo "Initialized $count term taxonomies history.\n";
-		echo ( $error ) ? "Stopped by error..." : "finished successfully.\n";
+		\WP_CLI::log( "Initialized $count term taxonomies history." );
+		\WP_CLI::log( ( $error ) ? "Stopped by error..." : "finished successfully." );
 
-		echo "\n";
+		\WP_CLI::log( "" );
 
 	}
 
@@ -123,14 +123,14 @@ class WPCli {
 	 * @param $assoc_args
 	 */
 	function check($args, $assoc_args){
-		echo "\n";
+		\WP_CLI::log( "" );
 		$plugin = Plugin::instance();
 		$content_types = $plugin->database->getContentTypes();
-		echo "There is history for the following content types:\n";
+		\WP_CLI::log( "There is history for the following content types:" );
 		foreach ( $content_types as $type ) {
 			$count = $plugin->database->getCount( $type );
-			echo " - '$type' with $count items\n";
+			\WP_CLI::log( " - '$type' with $count items" );
 		}
-		echo "\n";
+		\WP_CLI::log( "" );
 	}
 }
