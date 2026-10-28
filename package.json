@@ -33,6 +33,7 @@
 	},
 	"prettier": "@wordpress/prettier-config",
 	"devDependencies": {
+		"@cyclonedx/webpack-plugin": "5.3.3",
 		"@eslint/js": "^9.39.5",
 		"@types/react": "^19.3.0",
 		"@wordpress/components": "^43.0.0",
