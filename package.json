@@ -37,7 +37,7 @@
 		"@types/react": "^19.3.0",
 		"@wordpress/components": "^43.0.0",
 		"@wordpress/core-data": "^8.2.0",
-		"@wordpress/data": "^10.56.0",
+		"@wordpress/data": "^11.0.0",
 		"@wordpress/editor": "^15.2.0",
 		"@wordpress/env": "^11.17.0",
 		"@wordpress/eslint-plugin": "^27.1.0",
