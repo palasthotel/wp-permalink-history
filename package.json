@@ -34,7 +34,7 @@
 	"prettier": "@wordpress/prettier-config",
 	"devDependencies": {
 		"@cyclonedx/webpack-plugin": "5.3.3",
-		"@eslint/js": "^9.39.5",
+		"@eslint/js": "^10.0.1",
 		"@types/react": "^19.3.0",
 		"@wordpress/components": "^44.0.0",
 		"@wordpress/core-data": "^9.1.0",
@@ -45,7 +45,7 @@
 		"@wordpress/plugins": "^8.0.0",
 		"@wordpress/prettier-config": "^5.0.0",
 		"@wordpress/scripts": "^37.1.0",
-		"eslint": "^9.39.5",
+		"eslint": "^10.15.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-react": "^7.37.5",
 		"eslint-plugin-react-hooks": "^7.1.1",
@@ -60,6 +60,12 @@
 		"smol-toml": "^1.9.0",
 		"katex": "^0.18.2",
 		"postcss-selector-parser": "^7.1.6",
-		"@simple-git/argv-parser": "^2.0.1"
+		"@simple-git/argv-parser": "^2.0.1",
+		"eslint-plugin-react": {
+			"eslint": "$eslint"
+		},
+		"isomorphic-git": "^1.38.6",
+		"qs": "^6.16.1",
+		"serialize-javascript": "^7.1.3"
 	}
 }
